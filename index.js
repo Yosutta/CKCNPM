@@ -20,37 +20,42 @@ app.get('/home',(req,res)=>{
     res.render('auth/home')
 })
 
-app.get("/accountant", (req,res)=>{
-    res.redirect("/accountant/login")
-})
-
-app.get("/accountant/login",(req,res)=>{
-    res.render("auth/accountant/login")
+app.get("/login",(req,res)=>{
+    res.render("auth/login")
 })
  
 app.post("/accountant/login",async(req,res)=>{
-    const foundAccountant = await Accountant.findOne({"username" : req.body["username"]});
-    let message = "We can not find any profile with that username or password"
-    console.log(foundAccountant)
-    if(foundAccountant){
-        if(foundAccountant['password'] === req.body['password']){
-            message = "Welcome back"
-        }
-    }
-    else{
-        message = "We can not find any profile with that username or password"
-    }
-    res.send(message)
+    // const foundAccountant = await Accountant.findOne({"username" : req.body["username"]});
+    // let message = "We can not find any profile with that username or password"
+    // console.log(foundAccountant)
+    // if(foundAccountant){
+    //     if(foundAccountant['password'] === req.body['password']){
+    //         message = "Welcome back"
+    //     }
+    // }
+    // else{
+    //     message = "We can not find any profile with that username or password"
+    // }
+    res.send('Login in as accountant')
 })
 
-app.get("/accountant/register", (req,res)=>{
-    res.render("auth/accountant/register")
+app.post("/retailer/login", async(req,res)=>{
+    res.send("Login as retailer")
+})
+
+app.get("/register", (req,res)=>{
+    res.render("auth/register")
 })
 
 app.post("/accountant/register", async (req,res)=>{
-    const newAccountant = await new Accountant(req.body)
-    await newAccountant.save()
-    res.redirect('/accountant/login');
+    // const newAccountant = await new Accountant(req.body)
+    // await newAccountant.save()
+    // res.redirect('/accountant/login');
+    res.send('Registering accountant')
+})
+
+app.post('/retailer/register', async(req,res)=>{
+    res.send('Registering retailer')
 })
 
 app.get("*", (req,res)=>{
