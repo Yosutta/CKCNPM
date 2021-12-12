@@ -20,9 +20,6 @@ app.use(express.static('public'))
 app.use(express.urlencoded({extended:true}))
 app.use(session({secret:'thisisarobbery', resave : false, saveUninitialized:true}))
 
-app.get('/home',(req,res)=>{
-    res.render('auth/home')
-})
 
 app.get("/login",(req,res)=>{
     res.render("auth/login")
@@ -109,7 +106,7 @@ app.get('/isretailer', (req,res)=>{
 })
 
 app.get("*", (req,res)=>{
-    res.redirect('/home')
+    res.redirect('/login')
 })
 
 app.listen("8080", (req,res)=>{
