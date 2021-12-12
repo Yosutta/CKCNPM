@@ -19,4 +19,4 @@ const warehouseSchema = mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model('Imports', warehouseSchema)
+module.exports = mongoose.model('Imports', warehouseSchema) 
