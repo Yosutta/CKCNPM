@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <h1>Register account</h1>
+    <div>
+        <label for="accountantRegistration">I am an employee</label>
+        <input type="checkbox" name="accountantRegistration" id="accountantRegistration" onclick="changeFormAction()">
+    </div>
+    <br>
+    <form action="/retailer/register" method="post" id="registrationForm">
+        <div>
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" required>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="text" name="password" id="password" required min="6">
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+<script>
+    const switchLoginType = document.querySelector("#accountantRegistration")
+    const loginForm =  document.querySelector("#registrationForm")
+
+    function changeFormAction(){
+        if(switchLoginType.checked)
+            registrationForm.action = "/accountant/register"
+        else
+            registrationForm.action = "/retailer/register"
+    }
+</script>
+</html>
