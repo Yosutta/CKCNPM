@@ -14,20 +14,27 @@ const {products} = require('./drugs.js')
 
 const seeddb = async()=>{
     await Warehouse.deleteMany()
+    let count = 0
     for(let i=0; i<products.length;i++){
         const quantityRand = Math.floor(Math.random()*101) *10
         const priceRand = Math.floor(Math.random()*8) + Math.floor(Math.random()*10)*0.1 + 0.09 + 3
-        const productName = products[i]['generic_name']
-        if(!productName) continue
         const productManufacturer = products[i]['labeler_name']
+        const productName = products[i]['brand_name']
 
-        const newProduct = new Warehouse({
-            name: productName,
-            quantity: quantityRand,
-            price: priceRand,
-            manufacturer: productManufacturer
-        })
-        await newProduct.save()
+        const test = ``
+        const foundProduct = await Warehouse.find({'name': { $regex : new RegExp(productName, "i") }})
+        if(foundProduct.length===0){
+            const newProduct = await new Warehouse({
+                name: productName,
+                quantity: quantityRand,
+                price: priceRand,
+                manufacturer: productManufacturer
+            })
+            count+=1
+            console.log(count)
+            await newProduct.save()
+        }
+        console.log(i)
     }
 }
 
