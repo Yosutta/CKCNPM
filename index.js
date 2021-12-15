@@ -17,10 +17,9 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
 app.set('view engine', 'ejs')
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }))
 app.use(session({ secret: 'thisisarobbery', resave: false, saveUninitialized: true }))
-
 
 app.get("/login", (req, res) => {
     res.render("auth/login")
@@ -111,8 +110,13 @@ app.get('/order', (req, res) => {
 })
 
 app.get('/order/search', async (req, res) => {
-    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(req.query['productname'], "i") } })
-    console.log(foundProducts)
+    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(req.query['search'], "i") } }).limit(10)
+    return res.status(200).json({ result: foundProducts })
+})
+
+app.get('/order/detail', async (req, res) => {
+    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(req.query['detail'], "i") } })
+    return res.status(200).json({ result: productDetail })
 })
 
 app.get("*", (req, res) => {

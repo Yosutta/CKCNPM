@@ -4,7 +4,6 @@
   }
   
   body {
-    
   }
   
   .card-signin {
@@ -115,8 +114,7 @@
     color: white;
     background-color: #3b5998;
   }
-input,
-textarea {
+input,textarea {
     background-color: #F3E5F5;
     border-radius: 50px !important;
     padding: 12px 15px 12px 15px !important;
@@ -284,4 +282,19 @@ a:hover {
 .img img{
   width: 100%;
   height: auto;
+}
+
+.ui-autocomplete {
+  overflow: auto;
+  height: 300px;
+}
+
+.ui-menu .ui-menu-item a{
+  background:red;
+  height:10px;
+  font-size:8px;
+}
+
+table,th,tr,td{
+  border : 1px solid gray
 }
