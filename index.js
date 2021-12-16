@@ -4,6 +4,7 @@ const session = require('express-session')
 const Accountant = require("./models/accountant")
 const Retailer = require('./models/retailer')
 const Warehouse = require('./models/warehouse')
+const Order = require('./models/order')
 
 const dbUrl = 'mongodb://127.0.0.1:27017/CNPM'
 const mongoose = require('mongoose')
@@ -110,13 +111,41 @@ app.get('/order', (req, res) => {
 })
 
 app.get('/order/search', async (req, res) => {
-    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(req.query['search'], "i") } }).limit(10)
+    const query = req.query['search'].replace(/\\/g, "\\\\");
+    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
     return res.status(200).json({ result: foundProducts })
 })
 
 app.get('/order/detail', async (req, res) => {
-    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(req.query['detail'], "i") } })
+    const query = req.query['detail'].replace(/\\/g, "\\\\");
+    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
     return res.status(200).json({ result: productDetail })
+})
+
+app.post('/order/checkout', (req, res) => {
+    const productList = req.body.list
+    const orderDate = Date.now();
+
+    //PAYMENT
+    const method = 'Credit card'
+    const amount = 100000
+    const pstatus = false
+    const payment = { method, status: pstatus, amount }
+
+    //DELIVERY
+    const address = 'Ho Chi Minh city'
+    const phonenumber = '090312345'
+    const dstatus = 'Prepairing'
+    const delivery = { address, phonenumber, status: dstatus }
+
+    const newOrder = new Order({
+        retailer_id: req.session.retailer_id,
+        orderDate,
+        product: productList,
+        payment,
+        delivery
+    })
+    console.log(newOrder)
 })
 
 app.get("*", (req, res) => {
