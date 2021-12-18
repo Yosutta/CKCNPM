@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="/style.css" />
+  <title>Make an Order</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="teacher.php">Company T^T</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+      aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="course.php">Create Order</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="viewstudentdetails.php">Account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">Log out</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- MENU SECTION END-->
+  <div class="content-wrapper">
+    <div class="container container--margin">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="page-head-line">Order </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+          <div class="panel panel-default">
+            <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+            <form action="/order/search" target="dummyframe" id="searchform">
+              <div class="form-group">
+                <h3 for="classname">Product's Name </h3>
+                <input type="text" class="form-control" id="productname" name="productname" autocomplete required />
+                <h5>Quantity</h5>
+                <input type="text" class="form-control" id="quantity" max="1000" min="10" name="quantity" required />
+              </div>
+            </form>
+          </div>
+        </div>
+        <table class="container" id="list">
+          <tr>
+            <th>Product's name</th>
+            <th>Manufacturer</th>
+            <th>Order quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+          </tr>
+        </table>
+        <button class="btn btn-primary" id="checkoutBtn">Checkout</button>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  <script src="/scripts/makeorder.js"></script>
+</body>
+
+</html>

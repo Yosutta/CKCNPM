@@ -94,9 +94,13 @@ app.post('/retailer/register', async (req, res) => {
 
 app.get('/isaccountant', (req, res) => {
     if (req.session.accountant_id)
-        res.send('Thispageisonlymadeforaccountant')
+        res.redirect('/warehouse')
     else
         res.redirect('/login')
+})
+
+app.get('/warehouse', (req, res) => {
+    res.render('warehouse/warehouse')
 })
 
 app.get('/isretailer', (req, res) => {
@@ -107,45 +111,60 @@ app.get('/isretailer', (req, res) => {
 })
 
 app.get('/order', (req, res) => {
-    res.render('ordering/order')
+    if (req.session.retailer_id)
+        res.render('ordering/order')
+    else
+        res.redirect('/login')
 })
 
 app.get('/order/search', async (req, res) => {
-    const query = req.query['search'].replace(/\\/g, "\\\\");
-    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
-    return res.status(200).json({ result: foundProducts })
+    if (req.session.retailer_id) {
+        const query = req.query['search'].replace(/\\/g, "\\\\");
+        const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
+        return res.status(200).json({ result: foundProducts })
+    }
+    else
+        res.redirect('/login')
 })
 
 app.get('/order/detail', async (req, res) => {
-    const query = req.query['detail'].replace(/\\/g, "\\\\");
-    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
-    return res.status(200).json({ result: productDetail })
+    if (req.session.retailer_id) {
+        const query = req.query['detail'].replace(/\\/g, "\\\\");
+        const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
+        return res.status(200).json({ result: productDetail })
+    }
+    else
+        res.redirect('/login')
 })
 
 app.post('/order/checkout', (req, res) => {
-    const productList = req.body.list
-    const orderDate = Date.now();
+    if (req.session.retailer_id) {
+        const productList = req.body.list
+        const orderDate = Date.now();
 
-    //PAYMENT
-    const method = 'Credit card'
-    const amount = 100000
-    const pstatus = false
-    const payment = { method, status: pstatus, amount }
+        //PAYMENT
+        const method = 'Credit card'
+        const amount = 100000
+        const pstatus = false
+        const payment = { method, status: pstatus, amount }
 
-    //DELIVERY
-    const address = 'Ho Chi Minh city'
-    const phonenumber = '090312345'
-    const dstatus = 'Prepairing'
-    const delivery = { address, phonenumber, status: dstatus }
+        //DELIVERY
+        const address = 'Ho Chi Minh city'
+        const phonenumber = '090312345'
+        const dstatus = 'Prepairing'
+        const delivery = { address, phonenumber, status: dstatus }
 
-    const newOrder = new Order({
-        retailer_id: req.session.retailer_id,
-        orderDate,
-        product: productList,
-        payment,
-        delivery
-    })
-    console.log(newOrder)
+        const newOrder = new Order({
+            retailer_id: req.session.retailer_id,
+            orderDate,
+            product: productList,
+            payment,
+            delivery
+        })
+        console.log(newOrder)
+    }
+    else
+        res.redirect('/login')
 })
 
 app.get("*", (req, res) => {
