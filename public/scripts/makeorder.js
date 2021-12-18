@@ -101,3 +101,9 @@ function checkOut(list) {
     list = []
     addToGrid(list)
 }
+
+const orderdate = document.querySelector('#orderdate')
+
+orderdate.addEventListener('click', () => {
+    console.log('hello')
+})
