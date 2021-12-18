@@ -2,17 +2,18 @@
 <html lang="en">
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Order page</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+	<meta name="description" content="" />
+	<meta name="author" content="" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-	<link rel="stylesheet" href="style.css" />
+	<link rel="stylesheet" href="/style.css" />
 </head>
 
 <body>
@@ -59,23 +60,24 @@
 			<div class="col-md-12">
 				<!--    Bordered Table  -->
 				<div class="panel panel-default">
-					<div class="panel-heading" id="orderdate">
-						Order day :
-						<hr>
-					</div>
-
-					<div class="panel-heading">
-						<input type="text" placeholder="Search.." id="productname" name="productname" autocomplete>
-						<hr>
-					</div>
+					<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+					<form action="/order/search" target="dummyframe" id="searchform">
+						<div class="panel-heading input-group mb-3">
+							<input type="text" placeholder="Search.." class="form-control" id="productname"
+								name="productname" autocomplete>
+							<div class="input-group-append ml-3">
+								<button class="btn btn-outline-secondary px-4" id="addBtn" type="button">Add</button>
+							</div>
+							<hr>
+						</div>
+					</form>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
 						<div class="table-responsive table-bordered">
-							<table class="table">
+							<table class="table" id="list">
 								<thead>
 									<tr>
 										<th>Product name</th>
-										<th>Product ID</th>
 										<th>price</th>
 										<th>Remaining</th>
 										<th>Manufacturer</th>
@@ -89,17 +91,10 @@
 										<td></td>
 										<td></td>
 										<td></td>
-										<td></td>
-										<td></td>
 										<td>
-											<a href="editOrder.html?id="">
-												<button class=" btn btn-primary"><i class="fa fa-edit "></i> Add</button>
-											</a>
-											<a href="ordermanage.html?id=""&del=delete"
-												onClick="return confirm('Are you sure you want to delete?')">
-												<button class="btn btn-danger">Remove</button>
-											</a>
+											<div contenteditable></div>
 										</td>
+										<td></td>
 									</tr>
 
 
@@ -108,35 +103,32 @@
 						</div>
 
 						<div class="table-responsive table-bordered">
-							<table class="table">
+							<table class="table" id="paymentForm">
 								<thead>
 									<tr>
-										<h3 for="paymentform">Payment Infomation Form</h3>
+										<h3>Payment Infomation Form</h3>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td>Delivery name</td>
-										<td><input type="text" class="form-control" id="classname" name="classname"
-												placeholder="Order Customer Name" value=" " required /></td>
-									</tr>
-									<tr>
 										<td>Delivery phone number</td>
-										<td><input type="text" class="form-control" id="classname" name="classname"
-												placeholder="Order Customer Name" value=" " required /></td>
+										<td><input type="text" class="form-control" id="deliveryphonenumber"
+												name="deliveryphonenumber" placeholder="Order Customer Name" value=" "
+												required /></td>
 									</tr>
 									<tr>
 										<td>Delivery address</td>
-										<td><input type="text" class="form-control" id="classname" name="classname"
-												placeholder="Order Customer Name" value=" " required /></td>
+										<td><input type="text" class="form-control" id="deliveryaddress"
+												name="deliveryaddress" placeholder="Order Customer Name" value=" "
+												required /></td>
 									</tr>
 									<tr>
 										<td>Payment method</td>
 										<td><label for="payment">Choose a payment method:</label>
 											<select id="payment">
-												<option value="Banking">Banking</option>
-												<option value="Momo">Momo</option>
-												<option value="Cash">Cash</option>
+												<option value="banking">Banking</option>
+												<option value="momo">Momo</option>
+												<option value="cash">Cash</option>
 											</select>
 										</td>
 									</tr>
@@ -149,7 +141,6 @@
 								</tbody>
 							</table>
 						</div>
-
 						<button type="Payment" name="Payment" class="btn btn-primary" id="checkoutBtn"><i
 								class=" fa fa-refresh "></i>
 							Payment</button>

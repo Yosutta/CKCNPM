@@ -118,13 +118,10 @@ app.get('/order', (req, res) => {
 })
 
 app.get('/order/search', async (req, res) => {
-    if (req.session.retailer_id) {
-        const query = req.query['search'].replace(/\\/g, "\\\\");
-        const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
-        return res.status(200).json({ result: foundProducts })
-    }
-    else
-        res.redirect('/login')
+    const search = req.query['search'] || ''
+    const query = search.replace(/\\/g, "\\\\");
+    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
+    return res.status(200).json({ result: foundProducts })
 })
 
 app.get('/order/detail', async (req, res) => {
@@ -137,22 +134,27 @@ app.get('/order/detail', async (req, res) => {
         res.redirect('/login')
 })
 
-app.post('/order/checkout', (req, res) => {
+app.post('/order/checkout', async (req, res) => {
     if (req.session.retailer_id) {
+        const { paymentList, deliveryList } = { ...req.body }
         const productList = req.body.list
         const orderDate = Date.now();
 
         //PAYMENT
-        const method = 'Credit card'
-        const amount = 100000
-        const pstatus = false
-        const payment = { method, status: pstatus, amount }
+        const payment = {
+            method: paymentList['orderPaymentMethod'],
+            status: false,
+            amount: paymentList['orderAmount']
+        }
+        console.log(payment)
 
         //DELIVERY
-        const address = 'Ho Chi Minh city'
-        const phonenumber = '090312345'
-        const dstatus = 'Prepairing'
-        const delivery = { address, phonenumber, status: dstatus }
+        const delivery = {
+            address: deliveryList['orderAddress'],
+            phonenumber: deliveryList['orderPhoneNumber'],
+            status: 'Awaiting for confirmation'
+        }
+        console.log(delivery)
 
         const newOrder = new Order({
             retailer_id: req.session.retailer_id,
@@ -162,13 +164,14 @@ app.post('/order/checkout', (req, res) => {
             delivery
         })
         console.log(newOrder)
+        await newOrder.save()
     }
     else
         res.redirect('/login')
 })
 
 app.get("*", (req, res) => {
-    res.redirect('/login')
+    res.redirect('/order')
 })
 
 app.listen("8080", (req, res) => {
