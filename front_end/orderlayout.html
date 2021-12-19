@@ -78,6 +78,7 @@
 										<th>Manufacturer</th>
 										<th>Quantity</th>
 										<th>Total price</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -88,6 +89,7 @@
 										<td></td>
 										<td></td>
 										<td><input type="number" id="quantity" name="quantity" min="1" max ="1000000"></td>
+										<td></td>
 										<td>
 											<a href="editOrder.html?id="">
 												<button class="btn btn-primary"><i class="fa fa-edit "></i> Add</button> 
@@ -107,7 +109,7 @@
 							<table class="table">
 								<thead>
 									<tr>
-										<h3 for="paymentform">Payment Infomation Form</h3>
+										<h3 for="paymentform">Delivery Infomation Form</h3>
 									</tr>
 								</thead>
 								<tbody>
@@ -122,35 +124,91 @@
 									<tr>
 										<td>Delivery address</td>
 										<td><input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required /></td>
-									</tr>
-									<tr>
-										<td>Payment method</td>
-										<td><label for="payment">Choose a payment method:</label>
-											<select id="payment">
-											  <option value="Banking">Banking</option>
-											  <option value="Momo">Momo</option>
-											  <option value="Cash">Cash</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td>Amount</td>
-										<td><td>
-									</tr>
-											
+									</tr>		
 								</tbody>
 							</table>
 						</div>
- 
+						<div class="table-responsive table-bordered">
+							<table class="table">
+								<thead>
+									<tr>
+										<h3 for="paymentform">Payment method</h3>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+									
+										<td>
+											<button class="btn btn-primary" onclick="openCity(event, 'Credit Card')"><i class=" fa fa-refresh ">Credit Card</button>
+											
+										</td>
+										<td>										
+											<button class="btn btn-primary" onclick="openCity(event, 'Momo')"><i class=" fa fa-refresh ">Momo</button>
+										</td>										
+										<td>
+										<button class="btn btn-primary" onclick="openCity(event, 'Cash')"> <i class=" fa fa-refresh "></i>Cash</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<div id="Credit Card" class="tabcontent">
+							<table class="table">
+								<thead>
+									<tr>
+										<h4>Credit Card</h4>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										Card Holder Name:<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />															
+									</tr>
+									<tr>
+										Card Number:<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />															
+									</tr>
+									<tr>
+										<td>MM/YY:<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required /></td>	
+										<td>ZIP:<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required /></td>																
+									</tr>
+								</tbody>
+							</table>
+							<p>Credit Card is the capital city of England.</p>
+						</div>
+						
+						<div id="Momo" class="tabcontent">
+						  <h3>Momo</h3>
+						  <p>This function is under development.</p> 
+						</div>
+
+						<div id="Cash" class="tabcontent">
+						  <h3>Cash</h3>
+						  <p>Your order payment will be confirmed later.</p>
+						</div>
 						<button type="Payment" name="Payment" class="btn btn-primary"><i class=" fa fa-refresh "></i> Payment</button>
-
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+</script>
+
 </body>
 </html>
 
