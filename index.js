@@ -6,8 +6,10 @@ const Retailer = require('./models/retailer')
 const Warehouse = require('./models/warehouse')
 const Order = require('./models/order')
 
+
 const dbUrl = 'mongodb://127.0.0.1:27017/CNPM'
 const mongoose = require('mongoose')
+const Import = require("./models/import")
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("CONNECTED!!!")
@@ -103,6 +105,40 @@ app.get('/warehouse', (req, res) => {
     res.render('warehouse/warehouse')
 })
 
+app.post('/warehouse/import', async (req, res) => {
+    const list = req.body.list
+    console.log(req.body)
+
+    for (let i = 0; i < list.length; i++) {
+        if (!list[i]._id) {
+            const { name, importQuantity, price, manufacturer } = list[i]
+            const newProduct = new Warehouse({
+                name,
+                quantity: importQuantity,
+                price,
+                manufacturer
+            })
+            await newProduct.save()
+        }
+        else {
+            const product = await Warehouse.findById(list[i]['_id'])
+            const totalAfterImport = await product['quantity'] + parseInt(list[i]['importQuantity'])
+            await Warehouse.findByIdAndUpdate(list[i]['_id'], { quantity: totalAfterImport })
+        }
+    }
+
+    const importDate = Date.now()
+
+    const newImportRequest = new Import({
+        importDate,
+        products: list
+    })
+
+    await newImportRequest.save()
+
+    res.redirect('/warehouse')
+})
+
 app.get('/isretailer', (req, res) => {
     if (req.session.retailer_id)
         res.redirect('/order')
@@ -117,27 +153,24 @@ app.get('/order', (req, res) => {
         res.redirect('/login')
 })
 
-app.get('/order/search', async (req, res) => {
+app.get('/product/search', async (req, res) => {
     const search = req.query['search'] || ''
     const query = search.replace(/\\/g, "\\\\");
     const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
     return res.status(200).json({ result: foundProducts })
 })
 
-app.get('/order/detail', async (req, res) => {
-    if (req.session.retailer_id) {
-        const query = req.query['detail'].replace(/\\/g, "\\\\");
-        const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
-        return res.status(200).json({ result: productDetail })
-    }
-    else
-        res.redirect('/login')
+app.get('/product/detail', async (req, res) => {
+    const query = req.query['detail'].replace(/\\/g, "\\\\");
+    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
+    return res.status(200).json({ result: productDetail })
 })
 
 app.post('/order/checkout', async (req, res) => {
     if (req.session.retailer_id) {
         const { paymentList, deliveryList } = { ...req.body }
         const productList = req.body.list
+        console.log(productList)
         const orderDate = Date.now();
 
         //PAYMENT
@@ -146,7 +179,6 @@ app.post('/order/checkout', async (req, res) => {
             status: false,
             amount: paymentList['orderAmount']
         }
-        console.log(payment)
 
         //DELIVERY
         const delivery = {
@@ -154,7 +186,6 @@ app.post('/order/checkout', async (req, res) => {
             phonenumber: deliveryList['orderPhoneNumber'],
             status: 'Awaiting for confirmation'
         }
-        console.log(delivery)
 
         const newOrder = new Order({
             retailer_id: req.session.retailer_id,

@@ -32,16 +32,12 @@ checkoutBtn.addEventListener('click', (e) => {
 input.addEventListener('input', () => {
     $.ajax({
         method: "GET",
-        url: "/order/search",
+        url: "/product/search",
         data: { search: input.value },
         success: function (daata) {
             getProduct(daata)
         }
     })
-})
-
-$('#list').click(function () {
-    console.log(list)
 })
 
 function getProduct(data) {
@@ -61,7 +57,7 @@ function getProduct(data) {
 function fetchData(ui) {
     return $.ajax({
         method: "GET",
-        url: "/order/detail",
+        url: "/product/detail",
         data: { detail: ui['item']['value'] },
     })
 }
