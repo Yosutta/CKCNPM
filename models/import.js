@@ -5,10 +5,16 @@ const importSchema = mongoose.Schema({
         type: Date,
         required: true
     },
-    products: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Warehouse'
-    }
+    products: [{
+        item: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Warehouse'
+        },
+        importQuantity: {
+            type: Number,
+            required: true
+        }
+    }]
 })
 
 const Import = mongoose.model('Import', importSchema)
