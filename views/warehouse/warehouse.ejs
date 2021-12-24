@@ -44,54 +44,66 @@
         </div>
     </nav>
     <!-- MENU SECTION END-->
-    <div class="content-wrapper">
-        <div class="container container--margin">
-            <div class="row">
-                <div class="col-md-12">
-                    <h1 class="page-head-line">Warehouse's Import</h1>
+    <div class="container-fluid container--margin">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="page-head-line">Warehouse's Import</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="panel panel-default border p-3">
+                    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+                    <form action="" target="dummyframe" id="productForm">
+                        <div class="form-group">
+                            <p for="classname">Product's Name </p>
+                            <input type="text" class="form-control" id="productname" name="productname" autocomplete
+                                required />
+                            <p>Quantity</p>
+                            <input type="text" class="form-control" id="quantity" max="1000" min="10" name="quantity"
+                                required />
+                            <p>Price</p>
+                            <input type="text" class="form-control" id="price" max="1000" min="10" name="price"
+                                required />
+                            <p>Manufacturer</p>
+                            <input type="text" class="form-control" id="manufacturer" max="1000" min="10"
+                                name="manufacturer" required />
+                        </div>
+                        <button class="btn btn-success float-right">Add</button>
+                    </form>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="panel panel-default border p-3">
-                        <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-                        <form action="/order/search" target="dummyframe" id="searchform">
-                            <div class="form-group">
-                                <p for="classname">Product's Name </p>
-                                <input type="text" class="form-control" id="productname" name="productname" autocomplete
-                                    required />
-                                <p>Quantity</p>
-                                <input type="text" class="form-control" id="quantity" max="1000" min="10"
-                                    name="quantity" required />
-                                <p>Price</p>
-                                <input type="text" class="form-control" id="quantity" max="1000" min="10"
-                                    name="quantity" required />
-                                <p>Manufacturer</p>
-                                <input type="text" class="form-control" id="quantity" max="1000" min="10"
-                                    name="quantity" required />
-                            </div>
-                            <button class="btn btn-success float-right">Add</button>
-                        </form>
-                    </div>
-                </div>
-                <div class="col-md-9">
-                    <table class="container" id="list">
-                        <tr>
-                            <th>Product's name</th>
-                            <th>Manufacturer</th>
-                            <th>Import quantity</th>
-                            <th>Price</th>
-                            <th>Total</th>
-                        </tr>
+            <div class="col-md-9">
+                <div>
+                    <table class="container table-bordered" id="list">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Product's name</th>
+                                <th>Manufacturer</th>
+                                <th>Import quantity</th>
+                                <th>Price</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td contenteditable id="productQuantity"></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
                     </table>
-                    <button class="btn btn-primary float-right" id="checkoutBtn">Checkout</button>
                 </div>
+                <form action="/warehouse/import" method="post" id="importBtn">
+                    <button class="btn btn-primary float-right" id="checkoutBtn">Import Products</button>
+                </form>
             </div>
         </div>
     </div>
     </div>
     </div>
-    <script src="/scripts/makeorder.js"></script>
+    <script src="/scripts/productsuggest.js"></script>
 </body>
 
 </html>
