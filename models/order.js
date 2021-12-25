@@ -17,7 +17,7 @@ const orderSchema = mongoose.Schema({
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Warehouse'
         },
-        ordered: {
+        orderedQuantity: {
             type: Number,
             required: true
         }
@@ -34,6 +34,20 @@ const orderSchema = mongoose.Schema({
         status: {
             type: Boolean,
             required: true
+        }
+    },
+    creditcard: {
+        name: {
+            type: String
+        },
+        cardnumber: {
+            type: Number
+        },
+        expireddate: {
+            type: String
+        },
+        zipcode: {
+            type: Number
         }
     },
     delivery: {

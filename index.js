@@ -168,7 +168,7 @@ app.get('/product/detail', async (req, res) => {
 
 app.post('/order/checkout', async (req, res) => {
     if (req.session.retailer_id) {
-        const { paymentList, deliveryList } = { ...req.body }
+        const { paymentList, deliveryList, creditCardInfo } = { ...req.body }
         const productList = req.body.list
         console.log(productList)
         const orderDate = Date.now();
@@ -187,12 +187,23 @@ app.post('/order/checkout', async (req, res) => {
             status: 'Awaiting for confirmation'
         }
 
+        let creditcard = {}
+        if (creditCardInfo) {
+            creditcard = {
+                name: creditCardInfo['creditcardname'],
+                cardnumber: creditCardInfo['creditcardnumber'],
+                expireddate: creditCardInfo['creditcarddate'],
+                zipcode: creditCardInfo['creditcardzip']
+            }
+        }
+
         const newOrder = new Order({
             retailer_id: req.session.retailer_id,
             orderDate,
             product: productList,
             payment,
-            delivery
+            delivery,
+            creditcard
         })
         console.log(newOrder)
         await newOrder.save()

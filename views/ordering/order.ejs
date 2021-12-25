@@ -103,55 +103,127 @@
 						</div>
 
 						<div class="table-responsive table-bordered">
-							<table class="table" id="paymentForm">
+							<table class="table">
 								<thead>
 									<tr>
-										<h3>Payment Infomation Form</h3>
+										<h3 for="paymentform">Delivery Infomation Form</h3>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<td>Delivery phone number</td>
 										<td><input type="text" class="form-control" id="deliveryphonenumber"
-												name="deliveryphonenumber" placeholder="Order Customer Name" value=" "
-												required /></td>
+												name="deliveryphonenumber" value=" " required /></td>
 									</tr>
 									<tr>
 										<td>Delivery address</td>
 										<td><input type="text" class="form-control" id="deliveryaddress"
-												name="deliveryaddress" placeholder="Order Customer Name" value=" "
-												required /></td>
+												name="deliveryaddress" value=" " required /></td>
 									</tr>
 									<tr>
-										<td>Payment method</td>
-										<td><label for="payment">Choose a payment method:</label>
-											<select id="payment">
-												<option value="banking">Banking</option>
-												<option value="momo">Momo</option>
-												<option value="cash">Cash</option>
-											</select>
+										<td>Order total cost</td>
+										<td>
+											<div id="totalamount" name="totalamount"></div>
 										</td>
 									</tr>
-									<tr>
-										<td>Amount</td>
-										<td>
-										<td>
-									</tr>
-
 								</tbody>
 							</table>
 						</div>
+						<div class=" table-responsive table-bordered">
+							<table class="table">
+								<thead>
+									<tr>
+										<h3 for="paymentform">Payment method</h3>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+
+										<td>
+											<button class="btn btn-primary"
+												onclick="changePaymentMethod('transaction');openCity(event, 'Credit Card')"><i
+													class=" fa fa-refresh ">Transaction</button>
+
+										</td>
+										<td>
+											<button class=" btn btn-primary"
+												onclick="changePaymentMethod('momo');openCity(event, 'Momo')"><i
+													class=" fa fa-refresh ">Momo</button>
+										</td>
+										<td>
+											<button class="btn btn-primary"
+												onclick="changePaymentMethod('incash');openCity(event, 'Cash')"> <i
+													class=" fa fa-refresh "></i>In cash</button>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div id="Credit Card" class="tabcontent">
+							<table class="table">
+								<thead>
+									<tr>
+										<h4>Credit Card</h4>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										Card Holder Name:<input type="text" class="form-control" id="creditcardname"
+											name="creditcardname" placeholder="Order Customer Name" value=" "
+											required />
+									</tr>
+									<tr>
+										Card Number:<input type="text" class="form-control" id="creditcardnumber"
+											name="creditcardnumber" placeholder="Order Customer Name" value=" "
+											required />
+									</tr>
+									<tr>
+										<td>MM/YY:<input type="month" class="form-control" id="creditcarddate"
+												name="creditcarddate" placeholder="Order Customer Name" value=" "
+												required />
+										</td>
+										<td>ZIP:<input type="text" class="form-control" id="creditcardzip"
+												name="creditcardzip" placeholder="Order Customer Name" value=" "
+												required /></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+
+						<div id="Momo" class="tabcontent">
+							<h3>Momo</h3>
+							<p>This function is under development.</p>
+						</div>
+
+						<div id="Cash" class="tabcontent">
+							<h3>Cash</h3>
+							<p>Your order payment will be confirmed later.</p>
+						</div>
 						<button type="Payment" name="Payment" class="btn btn-primary" id="checkoutBtn"><i
 								class=" fa fa-refresh "></i>
-							Payment</button>
-
-
+							Order</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	</div>
+	<script>
+		function openCity(evt, cityName) {
+			var i, tabcontent, tablinks;
+			tabcontent = document.getElementsByClassName("tabcontent");
+			for (i = 0; i < tabcontent.length; i++) {
+				tabcontent[i].style.display = "none";
+			}
+			tablinks = document.getElementsByClassName("tablinks");
+			for (i = 0; i < tablinks.length; i++) {
+				tablinks[i].className = tablinks[i].className.replace(" active", "");
+			}
+			document.getElementById(cityName).style.display = "block";
+			evt.currentTarget.className += " active";
+		}
+	</script>
 	<script src="/scripts/makeorder.js"></script>
 </body>
 

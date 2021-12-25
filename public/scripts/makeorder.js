@@ -5,24 +5,10 @@ const table = document.querySelector('#list')
 const addButton = document.querySelector('#addButton')
 const paymentTable = document.querySelector('#paymentForm')
 
-const list = []
+let paymentMethod = 'transaction'
+let list = []
 let foundProducts = []
-
-function calc() {
-    const tb = document.querySelector('#list')
-    let orderTotal = 0
-    for (let i = 1, row; row = tb.rows[i]; i++) {
-        const { body } = new DOMParser().parseFromString(row.cells[4].innerHTML, 'text/html');
-        const qInput = body.querySelector('#quantity').innerHTML
-
-        const price = row.cells[1].innerHTML
-        const total = parseFloat(price) * parseInt(qInput)
-        row.cells[5].innerHTML = total
-        orderTotal += total
-    }
-
-    paymentTable.rows[4].cells[1].innerHTML = orderTotal
-}
+let total = 0
 
 checkoutBtn.addEventListener('click', (e) => {
     e.preventDefault()
@@ -65,7 +51,6 @@ function fetchData(ui) {
 async function readData(ui) {
     try {
         const res = await fetchData(ui)
-        console.log(res, 1)
         let product = res['result']
         $('#addBtn').unbind().bind('click', function (event) {
             event.preventDefault();
@@ -98,29 +83,34 @@ function addToGrid(list) {
         productName.innerHTML = product['name']
         productManufacturer.innerHTML = product['manufacturer']
         quantity.innerHTML = product['quantity']
-        ordered.innerHTML = product['ordered'] || '<div contenteditable id="quantity" onkeyup="calc()"></div>'
+        ordered.innerHTML = product['orderedQuantity'] || `<div contenteditable id="orderedQuantity${i}" onInput="assignOrderedQuantity(${i})"></div>`
         price.innerHTML = product['price']
-        // total.innerHTML = product['ordered'] * product['price'];
     }
 }
 
 function checkOut(list) {
-    const tb = document.querySelector('#list')
-    list.reverse()
-    for (let i = 1, row; row = tb.rows[i]; i++) {
-        const { body } = new DOMParser().parseFromString(row.cells[4].innerHTML, 'text/html');
-        const qInput = body.querySelector('#quantity').innerHTML
-        list[i - 1]['ordered'] = qInput
-    }
-
-    let orderAmount = paymentTable.rows[4].cells[1].innerHTML
-    let orderPaymentMethod = document.querySelector('#payment').value
     let orderPhoneNumber = document.querySelector('#deliveryphonenumber').value
     let orderAddress = document.querySelector('#deliveryaddress').value
 
+    let creditCardInfo = {}
+
+    if (paymentMethod === 'transaction') {
+        let creditcardname = document.querySelector('#creditcardname').value
+        let creditcardnumber = document.querySelector('#creditcardnumber').value
+        let creditcarddate = document.querySelector('#creditcarddate').value
+        let creditcardzip = document.querySelector('#creditcardzip').value
+
+        creditCardInfo = {
+            creditcardname,
+            creditcardnumber,
+            creditcarddate,
+            creditcardzip
+        }
+    }
+
     paymentList = {
-        orderAmount,
-        orderPaymentMethod
+        orderPaymentMethod: paymentMethod,
+        orderAmount: total
     }
 
     deliveryList = {
@@ -128,11 +118,37 @@ function checkOut(list) {
         orderAddress,
     }
 
+    console.log(list)
+    console.log(paymentList)
+    console.log(deliveryList)
+
     $.ajax({
         method: 'POST',
         url: '/order/checkout',
-        data: { list, paymentList, deliveryList },
+        data: { list, paymentList, deliveryList, creditCardInfo },
     })
+}
+
+function assignOrderedQuantity(i) {
+    list[i]['orderedQuantity'] = parseInt(document.querySelector(`#orderedQuantity${i}`).innerHTML)
+    calc(list)
+}
+
+function calc(list) {
     list.reverse()
-    addToGrid(list)
+    total = 0
+    for (let i = 0; i < list.length; i++) {
+        product = list[i]
+        cost = (product['orderedQuantity'] * product['price']).toFixed(2)
+        table.rows[i + 1].cells[5].innerHTML = cost
+
+        total += parseFloat(cost)
+        document.querySelector('#totalamount').innerHTML = total
+    }
+    list.reverse()
+}
+
+
+function changePaymentMethod(value) {
+    paymentMethod = value
 }
