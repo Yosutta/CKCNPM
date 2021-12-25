@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Import/Export Form</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="teacher.php">Company T^T</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="teacher.php">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="viewstudentdetails.php">Account</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="logout.php">Log out</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>
+    <div class="content-wrapper">
+        <div class="container container--margin">
+			<font color="red" align="center"></font>
+			
+			<div>
+				<h4>
+					Choose a form type:
+					<select id="cars">
+					  <option value="Import">Import</option>
+					  <option value="Export">Export</option>
+					</select>
+				</h4>
+				
+				<h4>Date:</h4>
+				<hr>
+			</div>
+			<div>
+				<table class="table">
+					<tr>
+						<td>
+							<div class="col-md-12">
+								<h3>Input Form</h3>
+								<hr>
+								<div>
+									<h5>Product ID</h5>
+									<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />
+								</div>
+								
+								<div>
+									<h5>Product Name</h5>
+									<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />
+								</div>
+								
+								<div>
+									<h5>Quanity</h5>
+									<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />
+								</div>
+								
+								<div>
+									<h5>Price</h5>
+									<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />
+								</div>
+								
+								<div>
+									<h5>Manufacturer</h5>
+									<input type="text" class="form-control" id="classname" name="classname" placeholder="Order Customer Name" value=" " required />
+								</div>
+							</div>
+						</td>
+						<td>
+							 <div class="col-md-12">
+								<!--    Bordered Table  -->
+								<div class="panel panel-default">
+									<div class="panel-heading">
+										<h3>Infomation</h3>
+									</div>
+									<!-- /.panel-heading -->
+									<div class="panel-body">
+										<div class="table-responsive table-bordered">
+											<table class="table">
+												<thead>
+													<tr>
+														<th>Product ID</th>
+														<th>Product Name</th>
+														<th>Quanity</th>
+														<th>Price</th>
+														<th>Manufacturer</th>
+														<th>Total Price</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td></td>
+														<td>
+															<a href="editOrder.html?id="">
+																<button class="btn btn-primary"><i class="fa fa-edit "></i> Add</button> 
+															</a>                                        
+															<a href="ordermanage.html?id=""&del=delete" onClick="return confirm('Are you sure you want to delete?')">
+																<button class="btn btn-danger">Delete</button>
+															</a>
+														</td>
+													</tr>
+
+												
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+
