@@ -298,3 +298,8 @@ a:hover {
 table,th,tr,td{
   border : 1px solid gray
 }
+
+card-order{
+  padding: 0px 10px;
+  background-color: #c1c1c1;
+}

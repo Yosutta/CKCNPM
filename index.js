@@ -5,6 +5,7 @@ const Accountant = require("./models/accountant")
 const Retailer = require('./models/retailer')
 const Warehouse = require('./models/warehouse')
 const Order = require('./models/order')
+const Export = require('./models/export')
 
 
 const dbUrl = 'mongodb://127.0.0.1:27017/CNPM'
@@ -96,47 +97,91 @@ app.post('/retailer/register', async (req, res) => {
 
 app.get('/isaccountant', (req, res) => {
     if (req.session.accountant_id)
-        res.redirect('/warehouse')
+        res.redirect('/accountant/warehouse')
     else
         res.redirect('/login')
 })
 
-app.get('/warehouse', (req, res) => {
-    res.render('warehouse/warehouse')
+app.get('/accountant/warehouse', async (req, res) => {
+    if (req.session.accountant_id) {
+        const orders = await Order.find().populate('retailer_id');
+        res.render('accountant/warehouse', { orders })
+    }
+    else
+        res.redirect('/login')
 })
 
-app.post('/warehouse/import', async (req, res) => {
-    const list = req.body.list
-    console.log(req.body)
+app.post('/accountant/warehouse/import', async (req, res) => {
+    if (req.session.accountant_id) {
+        const list = req.body.list
 
-    for (let i = 0; i < list.length; i++) {
-        if (!list[i]._id) {
-            const { name, importQuantity, price, manufacturer } = list[i]
-            const newProduct = new Warehouse({
-                name,
-                quantity: importQuantity,
-                price,
-                manufacturer
-            })
-            await newProduct.save()
+        for (let i = 0; i < list.length; i++) {
+            if (!list[i]._id) {
+                const { name, importQuantity, price, manufacturer } = list[i]
+                const newProduct = new Warehouse({
+                    name,
+                    quantity: importQuantity,
+                    price,
+                    manufacturer
+                })
+                await newProduct.save()
+            }
+            else {
+                const product = await Warehouse.findById(list[i]['_id'])
+                const totalAfterImport = await product['quantity'] + parseInt(list[i]['importQuantity'])
+                // console.log(totalAfterImport)
+                await Warehouse.findByIdAndUpdate(list[i]['_id'], { quantity: totalAfterImport })
+            }
         }
-        else {
-            const product = await Warehouse.findById(list[i]['_id'])
-            const totalAfterImport = await product['quantity'] + parseInt(list[i]['importQuantity'])
-            await Warehouse.findByIdAndUpdate(list[i]['_id'], { quantity: totalAfterImport })
+
+        const importDate = Date.now()
+
+        const newImportRequest = new Import({
+            importDate,
+            products: list
+        })
+
+        await newImportRequest.save()
+    }
+    else
+        res.redirect('/login')
+})
+
+app.post('/accountant/warehouse/export', async (req, res) => {
+    if (req.session.accountant_id) {
+        const exportDate = Date.now()
+        const orderID = req.body.exportList._id
+        const orderProducts = req.body.exportList.product
+
+        const newExportRequest = new Export({
+            exportDate,
+            order_id: orderID,
+            products: orderProducts
+        })
+        await newExportRequest.save()
+        // console.log(newExportRequest._id)
+
+        let updatedOrder = await Order.findByIdAndUpdate(orderID, { export_id: newExportRequest._id })
+        updatedOrder = await Order.findByIdAndUpdate(orderID, { "delivery.status": "Confirmed and Delivering" })
+        // console.log(updatedOrder)
+
+        //UPDATE WAREHOUSE QUANTITY
+        for (let i = 0; i < orderProducts.length; i++) {
+            const orderedQuantity = orderProducts[i].orderedQuantity
+            const product = orderProducts[i]._id
+
+            const total = parseInt(product.quantity) - parseInt(orderedQuantity)
+            console.log(product.quantity, total)
+            const updatedProduct = await Warehouse.findByIdAndUpdate(product._id, { quantity: total })
+            console.log(updatedProduct)
         }
     }
+    else
+        res.redirect('/login')
+})
 
-    const importDate = Date.now()
-
-    const newImportRequest = new Import({
-        importDate,
-        products: list
-    })
-
-    await newImportRequest.save()
-
-    res.redirect('/warehouse')
+app.get('/accountant/order', (req, res) => {
+    res.render('accountant/orders-view')
 })
 
 app.get('/isretailer', (req, res) => {
@@ -151,6 +196,14 @@ app.get('/order', (req, res) => {
         res.render('ordering/order')
     else
         res.redirect('/login')
+})
+
+app.get('/order/detail', async (req, res) => {
+    const order = await Order.findById(req.query.id).populate('retailer_id').populate({
+        path: 'product._id',
+        model: 'Warehouse'
+    })
+    return res.status(200).json({ order })
 })
 
 app.get('/product/search', async (req, res) => {
@@ -170,7 +223,6 @@ app.post('/order/checkout', async (req, res) => {
     if (req.session.retailer_id) {
         const { paymentList, deliveryList, creditCardInfo } = { ...req.body }
         const productList = req.body.list
-        console.log(productList)
         const orderDate = Date.now();
 
         //PAYMENT
@@ -205,7 +257,6 @@ app.post('/order/checkout', async (req, res) => {
             delivery,
             creditcard
         })
-        console.log(newOrder)
         await newOrder.save()
     }
     else
@@ -213,7 +264,7 @@ app.post('/order/checkout', async (req, res) => {
 })
 
 app.get("*", (req, res) => {
-    res.redirect('/order')
+    res.redirect('/login')
 })
 
 app.listen("8080", (req, res) => {

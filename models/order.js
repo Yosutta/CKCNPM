@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const orderSchema = mongoose.Schema({
     retailer_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Retailer',
         required: true
     },
     orderDate: {

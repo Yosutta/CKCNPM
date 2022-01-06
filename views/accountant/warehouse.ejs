@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="/style.css" />
+<title>Import/Export Form</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+		<div class="container">
+			<a class="navbar-brand" href="teacher.php">Company T^T</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+				aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="teacher.php">Home
+							<span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="viewstudentdetails.php">Account</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="logout.php">Log out</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class="content-wrapper">
+		<div class="container" style="margin-top:80px">
+			<div>
+				<h4>
+					Choose a form type:
+					<select id="requestType" onchange="changeRequestType()">
+						<option value="import" selected>Import</option>
+						<option value="export">Export</option>
+					</select>
+				</h4>
+			</div>
+			<br>
+			<div>
+				<table class="table" id="importForm">
+					<tr>
+						<td>
+							<h3>Input Form</h3>
+							<hr>
+							<iframe name="dummyframe" id="dummyframe" style="display: none"></iframe>
+							<form action="" target="dummyframe" id="productForm">
+								<div class="form-group">
+									<div>
+										<h5>Product Name</h5>
+										<input type="text" class="form-control" id="productname" name="productname"
+											required />
+									</div>
+
+									<div>
+										<h5>Quanity</h5>
+										<input type="text" class="form-control" id="quantity" name="quantity" max="1000"
+											min="10" required />
+									</div>
+
+									<div>
+										<h5>Price</h5>
+										<input type="text" class="form-control" id="price" name="price" max="1000"
+											min="10" required />
+									</div>
+
+									<div>
+										<h5>Manufacturer</h5>
+										<input type="text" class="form-control" id="manufacturer" name="manufacturer"
+											max="1000" min="10" required />
+									</div>
+									<button class="btn btn-success float-right">Add</button>
+								</div>
+							</form>
+						</td>
+						<td>
+							<!--    Bordered Table  -->
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>Information</h3>
+								</div>
+								<!-- /.panel-heading -->
+								<div class="panel-body">
+									<div class="table-responsive table-bordered">
+										<table class="table" id="list">
+											<thead>
+												<tr>
+													<th>Product Name</th>
+													<th>Manufacturer</th>
+													<th>Import Quanity</th>
+													<th>Price</th>
+													<th>Total Price</th>
+													<th></th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td></td>
+													<td contenteditable id="productQuantity"></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td>
+														<button class="btn btn-danger">Delete</button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<form action="/accountant/warehouse/import" method="post" id="importBtn">
+										<button class="btn btn-primary float-right" id="checkoutBtn">Import
+											Products</button>
+									</form>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div style="display: none;" id="exportForm">
+					<div class="row">
+						<div class="col-3">
+							<h4>Retailer's orders</h4>
+							<div class="p-0" style="overflow-y: scroll;height:400px">
+								<% for(let i=0;i< orders.length;i++) {%>
+									<% if(!orders[i].export_id) {%>
+										<div class="card-order">
+											<div class="card-body d-inline">
+												<h6 class="card-title">
+													<%= orders[i].retailer_id.fullname %>
+												</h6>
+												<h6 class="card-subtitle mb-2 text-muted">
+													<%= orders[i].orderDate.toDateString() %>
+												</h6>
+											</div>
+											<button class="btn btn-info btn-sm d-inline float-right"
+												style="margin-top: -45px;"
+												onclick="fillExportRequest('<%= orders[i]._id%>')">View</button>
+										</div>
+										<% } %>
+											<% } %>
+							</div>
+						</div>
+						<div class="col-9">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3>Export request queue</h3>
+								</div>
+								<br>
+								<div id="orderDetail">
+								</div>
+								<!-- /.panel-heading -->
+								<div class="panel-body">
+									<div class="table-responsive table-bordered">
+										<table class="table" id="list2">
+											<thead>
+												<tr>
+													<th>Product Name</th>
+													<th>Manufacturer</th>
+													<th>Price</th>
+													<th>Warehouse's Quanity</th>
+													<th>Export Quantity (Ordered) </th>
+													<th>Ordered Price</th>
+												</tr>
+											</thead>
+											<tbody>
+												<tr>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+									<form action="/accountant/warehouse/export" method="post" id="exportBtn">
+										<button class="btn btn-success float-right">Export
+											Products</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<script src="/scripts/productsuggest.js"></script>
+</body>
+
+</html>

@@ -83,7 +83,12 @@ function addToGrid(list) {
         productName.innerHTML = product['name']
         productManufacturer.innerHTML = product['manufacturer']
         quantity.innerHTML = product['quantity']
-        ordered.innerHTML = product['orderedQuantity'] || `<div contenteditable id="orderedQuantity${i}" onInput="assignOrderedQuantity(${i})"></div>`
+        if (!product['orderedQuantity']) {
+            ordered.innerHTML = `<div contenteditable id="orderedQuantity${i}" onInput="assignOrderedQuantity(${i})"></div>`
+        }
+        else {
+            ordered.innerHTML = `<div contenteditable id="orderedQuantity${i}" onInput="assignOrderedQuantity(${i})">${product['orderedQuantity']}</div>`
+        }
         price.innerHTML = product['price']
     }
 }
@@ -118,14 +123,12 @@ function checkOut(list) {
         orderAddress,
     }
 
-    console.log(list)
-    console.log(paymentList)
-    console.log(deliveryList)
-
     $.ajax({
         method: 'POST',
         url: '/order/checkout',
         data: { list, paymentList, deliveryList, creditCardInfo },
+    }).done(() => {
+        window.location.href = "/order"
     })
 }
 
