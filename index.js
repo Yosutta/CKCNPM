@@ -180,25 +180,30 @@ app.post('/accountant/warehouse/export', async (req, res) => {
         res.redirect('/login')
 })
 
-app.get('/accountant/order', (req, res) => {
-    res.render('accountant/orders-view')
+app.get('/accountant/orders/view', async (req, res) => {
+    // if (req.session.accountant_id) {
+    const orders = await Order.find().populate('retailer_id');
+    res.render('accountant/ordermanage', { orders })
+    // }
+    // else
+    //     res.redirect('/login')
 })
 
 app.get('/isretailer', (req, res) => {
     if (req.session.retailer_id)
-        res.redirect('/order')
+        res.redirect('/retailer/order')
     else
         res.redirect('/login')
 })
 
-app.get('/order', (req, res) => {
+app.get('/retailer/order', (req, res) => {
     if (req.session.retailer_id)
         res.render('ordering/order')
     else
         res.redirect('/login')
 })
 
-app.get('/order/detail', async (req, res) => {
+app.get('/retailer/order/detail', async (req, res) => {
     const order = await Order.findById(req.query.id).populate('retailer_id').populate({
         path: 'product._id',
         model: 'Warehouse'
@@ -206,20 +211,7 @@ app.get('/order/detail', async (req, res) => {
     return res.status(200).json({ order })
 })
 
-app.get('/product/search', async (req, res) => {
-    const search = req.query['search'] || ''
-    const query = search.replace(/\\/g, "\\\\");
-    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
-    return res.status(200).json({ result: foundProducts })
-})
-
-app.get('/product/detail', async (req, res) => {
-    const query = req.query['detail'].replace(/\\/g, "\\\\");
-    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
-    return res.status(200).json({ result: productDetail })
-})
-
-app.post('/order/checkout', async (req, res) => {
+app.post('/retailer/order/checkout', async (req, res) => {
     if (req.session.retailer_id) {
         const { paymentList, deliveryList, creditCardInfo } = { ...req.body }
         const productList = req.body.list
@@ -261,6 +253,19 @@ app.post('/order/checkout', async (req, res) => {
     }
     else
         res.redirect('/login')
+})
+
+app.get('/product/search', async (req, res) => {
+    const search = req.query['search'] || ''
+    const query = search.replace(/\\/g, "\\\\");
+    const foundProducts = await Warehouse.find({ name: { '$regex': new RegExp(query, "i") } }).limit(10)
+    return res.status(200).json({ result: foundProducts })
+})
+
+app.get('/product/detail', async (req, res) => {
+    const query = req.query['detail'].replace(/\\/g, "\\\\");
+    const productDetail = await Warehouse.findOne({ name: { '$regex': new RegExp(query, "i") } })
+    return res.status(200).json({ result: productDetail })
 })
 
 app.get("*", (req, res) => {

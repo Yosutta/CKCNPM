@@ -125,7 +125,7 @@ function checkOut(list) {
 
     $.ajax({
         method: 'POST',
-        url: '/order/checkout',
+        url: '/retailer/order/checkout',
         data: { list, paymentList, deliveryList, creditCardInfo },
     }).done(() => {
         window.location.href = "/order"
