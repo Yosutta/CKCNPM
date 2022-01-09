@@ -181,12 +181,30 @@ app.post('/accountant/warehouse/export', async (req, res) => {
 })
 
 app.get('/accountant/orders/view', async (req, res) => {
-    // if (req.session.accountant_id) {
-    const orders = await Order.find().populate('retailer_id');
-    res.render('accountant/ordermanage', { orders })
-    // }
-    // else
-    //     res.redirect('/login')
+    if (req.session.accountant_id) {
+        const orders = await Order.find().populate('retailer_id');
+        res.render('accountant/ordermanage', { orders })
+    }
+    else
+        res.redirect('/login')
+})
+
+app.post('/accountant/orders/edit', async (req, res) => {
+    if (req.session.accountant_id) {
+        let payment = false;
+        if (req.body.payment == 1) {
+            payment = true
+        }
+
+        let delivery = 'Confirmed and Delivering'
+        if (req.body.delivery == 1) {
+            delivery = 'Order has been delivered'
+        }
+        await Order.findByIdAndUpdate(req.body.id, { $set: { 'payment.status': payment } })
+        await Order.findByIdAndUpdate(req.body.id, { $set: { 'delivery.status': delivery } })
+    }
+    else
+        res.redirect('/login')
 })
 
 app.get('/isretailer', (req, res) => {
@@ -217,10 +235,15 @@ app.post('/retailer/order/checkout', async (req, res) => {
         const productList = req.body.list
         const orderDate = Date.now();
 
+        let paymentStatus = false
+        if (paymentList['orderPaymentMethod'] === 'transaction') {
+            paymentStatus = true
+        }
+
         //PAYMENT
         const payment = {
             method: paymentList['orderPaymentMethod'],
-            status: false,
+            status: paymentStatus,
             amount: paymentList['orderAmount']
         }
 
