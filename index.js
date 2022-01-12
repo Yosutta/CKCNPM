@@ -5,12 +5,12 @@ const Accountant = require("./models/accountant")
 const Retailer = require('./models/retailer')
 const Warehouse = require('./models/warehouse')
 const Order = require('./models/order')
+const Import = require("./models/import")
 const Export = require('./models/export')
 
 
 const dbUrl = 'mongodb://127.0.0.1:27017/CNPM'
 const mongoose = require('mongoose')
-const Import = require("./models/import")
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         console.log("CONNECTED!!!")
@@ -59,6 +59,18 @@ app.post("/retailer/login", async (req, res) => {
         message = "We can not find any retailer profile with that username or password"
         res.send(message)
     }
+})
+
+app.get("/accountant/logout", (req, res) => {
+    console.log("LOGGED OUT")
+    delete req.session.accountant_id;
+    res.redirect('/login')
+})
+
+app.get("/retailer/logout", (req, res) => {
+    console.log("LOGGED OUT")
+    delete req.session.retailer_id;
+    res.redirect('/login')
 })
 
 app.get("/register", (req, res) => {
@@ -169,11 +181,8 @@ app.post('/accountant/warehouse/export', async (req, res) => {
         for (let i = 0; i < orderProducts.length; i++) {
             const orderedQuantity = orderProducts[i].orderedQuantity
             const product = orderProducts[i]._id
-
-            const total = parseInt(product.quantity) - parseInt(orderedQuantity)
-            console.log(product.quantity, total)
-            const updatedProduct = await Warehouse.findByIdAndUpdate(product._id, { quantity: total })
-            console.log(updatedProduct)
+            const total = parseInt(orderProducts[i].item.quantity) - parseInt(orderedQuantity)
+            await Warehouse.findByIdAndUpdate(product, { quantity: total })
         }
     }
     else
@@ -207,6 +216,55 @@ app.post('/accountant/orders/edit', async (req, res) => {
         res.redirect('/login')
 })
 
+app.get('/accountant/revenue', async (req, res) => {
+    res.redirect("/accountant/revenue/imports")
+})
+
+app.get('/accountant/revenue/imports', (req, res) => {
+    res.render("accountant/importhistory")
+})
+
+app.get('/accountant/revenue/imports/get', async (req, res) => {
+    // const allImports = await Import.find().populate('products.item')
+    const month = parseInt(req.query.month)
+    let foundImports;
+    if (month === 0) {
+        foundImports = await Import.find().populate('products.item')
+    }
+    else {
+        foundImports = await Import.aggregate([
+            { $addFields: { "month": { $month: '$importDate' } } },
+            { $match: { month: month } }
+        ])
+        await Import.populate(foundImports, 'products.item')
+    }
+    return res.status(200).json({ result: foundImports })
+})
+
+app.get('/accountant/revenue/exports', (req, res) => {
+    res.render("accountant/exporthistory")
+})
+
+app.get('/accountant/revenue/exports/get', async (req, res) => {
+    // const foundExports = await Export.find().populate('products.item')
+    const month = parseInt(req.query.month)
+    let foundExports;
+    if (month === 0) {
+        foundExports = await Export.find().populate('products.item')
+        console.log(foundExports)
+    }
+    else {
+        foundExports = await Export.aggregate([
+            { $addFields: { "month": { $month: '$exportDate' } } },
+            { $match: { month: month } }
+        ])
+        await Export.populate(foundExports, 'products.item')
+        await Export.populate(foundExports, 'order_id')
+        await Export.populate(foundExports, 'order_id.retailer_id')
+    }
+    return res.status(200).json({ result: foundExports })
+})
+
 app.get('/isretailer', (req, res) => {
     if (req.session.retailer_id)
         res.redirect('/retailer/order')
@@ -223,7 +281,7 @@ app.get('/retailer/order', (req, res) => {
 
 app.get('/retailer/order/detail', async (req, res) => {
     const order = await Order.findById(req.query.id).populate('retailer_id').populate({
-        path: 'product._id',
+        path: 'product.item',
         model: 'Warehouse'
     })
     return res.status(200).json({ order })

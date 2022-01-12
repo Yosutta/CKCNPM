@@ -30,7 +30,10 @@
 						<a class="nav-link" href="/accountant/orders/view">Retailer's orders</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="logout.php">Log out</a>
+						<a class="nav-link" href="/accountant/revenue">View Revenue</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="/accountant/logout">Log out</a>
 					</li>
 				</ul>
 			</div>
@@ -155,6 +158,10 @@
 							<div class="panel panel-default">
 								<div class="panel-heading">
 									<h3>Export request queue</h3>
+									<form action="/accountant/warehouse/export" method="post" id="exportBtn">
+										<button class="btn btn-success float-right">Export
+											Products</button>
+									</form>
 								</div>
 								<br>
 								<div id="orderDetail">
@@ -185,10 +192,6 @@
 											</tbody>
 										</table>
 									</div>
-									<form action="/accountant/warehouse/export" method="post" id="exportBtn">
-										<button class="btn btn-success float-right">Export
-											Products</button>
-									</form>
 								</div>
 							</div>
 						</div>

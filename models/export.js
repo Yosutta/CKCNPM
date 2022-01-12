@@ -7,6 +7,7 @@ const exportSchema = mongoose.Schema({
     },
     order_id: {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'Order',
         required: true
     },
     products: [{

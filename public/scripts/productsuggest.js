@@ -145,7 +145,7 @@ function changeRequestType() {
 async function fillExportRequest(id) {
     const result = await $.ajax({
         method: "GET",
-        url: "/order/detail",
+        url: "/retailer/order/detail",
         data: { id },
     })
 
@@ -173,9 +173,9 @@ function fillExportTable() {
     }
 
     const products = exportList.product
-
     for (let i = 0; i < products.length; i++) {
         const product = products[i]
+        // console.log(product)
         const row = table.insertRow(1)
 
         let productName = row.insertCell(0)
@@ -185,12 +185,12 @@ function fillExportTable() {
         let productExportQuantity = row.insertCell(4)
         let productTotal = row.insertCell(5)
 
-        productName.innerHTML = product._id['name']
-        productManufacturer.innerHTML = product._id['manufacturer']
-        productPrice.innerHTML = product._id['price']
-        productWarehouseQuantity.innerHTML = product._id['quantity']
+        productName.innerHTML = product.item['name']
+        productManufacturer.innerHTML = product.item['manufacturer']
+        productPrice.innerHTML = product.item['price']
+        productWarehouseQuantity.innerHTML = product.item['quantity']
         productExportQuantity.innerHTML = product['orderedQuantity']
-        productTotal.innerHTML = (product._id['price'] * product['orderedQuantity']).toFixed(2)
+        productTotal.innerHTML = (product.item['price'] * product['orderedQuantity']).toFixed(2)
     }
 }
 
