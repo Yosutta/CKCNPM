@@ -185,6 +185,8 @@ function fillExportTable() {
         let productExportQuantity = row.insertCell(4)
         let productTotal = row.insertCell(5)
 
+        console.log(products)
+
         productName.innerHTML = product.item['name']
         productManufacturer.innerHTML = product.item['manufacturer']
         productPrice.innerHTML = product.item['price']
@@ -200,7 +202,8 @@ document.querySelector("#exportBtn").addEventListener('submit', (e) => {
         method: "POST",
         url: "/accountant/warehouse/export",
         data: { exportList },
-    }).done(() => {
-        window.location.href = "/accountant/warehouse"
+        success: function (data) {
+            location.href = '/accountant/warehouse'
+        }
     })
 })

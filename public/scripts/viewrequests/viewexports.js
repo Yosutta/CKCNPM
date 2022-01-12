@@ -11,7 +11,6 @@ function getData(month) {
 
 async function fillData(data) {
     const exports = data
-    console.log(exports)
     const table = document.querySelector("#list")
     let totalPrice = 0
 

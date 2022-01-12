@@ -51,60 +51,60 @@ const seeddb = async () => {
     const allRetailers = await Retailer.find()
 
     //SEEDING ORDERS
-    for (let i = 0; i < 50; i++) {
-        let randProducts = Math.floor(Math.random() * 10) + 7
-        let randRetailer = Math.floor(Math.random() * allRetailers.length)
-        let total = 0
+    // for (let i = 0; i < 50; i++) {
+    //     let randProducts = Math.floor(Math.random() * 10) + 7
+    //     let randRetailer = Math.floor(Math.random() * allRetailers.length)
+    //     let total = 0
 
-        let arr = []
-        let orderNumbers = []
-        for (let j = 0; j < randProducts; j++) {
-            arr.push(Math.floor(Math.random() * allProducts.length) + 1)
-            orderNumbers.push(Math.floor(Math.random() * 101) * 5)
-        }
+    //     let arr = []
+    //     let orderNumbers = []
+    //     for (let j = 0; j < randProducts; j++) {
+    //         arr.push(Math.floor(Math.random() * allProducts.length) + 1)
+    //         orderNumbers.push(Math.floor(Math.random() * 101) * 5)
+    //     }
 
-        let products = []
-        for (let j = 0; j < arr.length; j++) {
-            products[j] = {}
-            products[j].item = allProducts[arr[j]]
-            products[j].orderedQuantity = orderNumbers[j]
-            console.log(products[j].item)
-            total = products[j].orderedQuantity * products[j].item.price
-        }
+    //     let products = []
+    //     for (let j = 0; j < arr.length; j++) {
+    //         products[j] = {}
+    //         products[j].item = allProducts[arr[j]]
+    //         products[j].orderedQuantity = orderNumbers[j]
+    //         console.log(products[j].item)
+    //         total = products[j].orderedQuantity * products[j].item.price
+    //     }
 
-        const payment = {
-            method: 'cash',
-            amount: total.toFixed(2),
-            status: false
-        }
-        const min = 111111111
-        const max = 999999999
-        const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+    //     const payment = {
+    //         method: 'cash',
+    //         amount: total.toFixed(2),
+    //         status: false
+    //     }
+    //     const min = 111111111
+    //     const max = 999999999
+    //     const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
 
-        const delivery = {
-            address: allRetailers[randRetailer].fullname,
-            phonenumber: random(min, max),
-            status: 'Awaiting for confirmation'
-        }
+    //     const delivery = {
+    //         address: allRetailers[randRetailer].fullname,
+    //         phonenumber: random(min, max),
+    //         status: 'Awaiting for confirmation'
+    //     }
 
 
-        const orderRetailer_id = allRetailers[randRetailer]._id
-        const orderOrderDate = randomDate(new Date(2021, 0, 1), new Date());
-        const orderProducts = products
-        const orderPayment = payment
-        const orderDelivery = delivery
+    //     const orderRetailer_id = allRetailers[randRetailer]._id
+    //     const orderOrderDate = randomDate(new Date(2021, 0, 1), new Date());
+    //     const orderProducts = products
+    //     const orderPayment = payment
+    //     const orderDelivery = delivery
 
-        const newOrder = new Order({
-            retailer_id: orderRetailer_id,
-            orderDate: orderOrderDate,
-            product: orderProducts,
-            payment: orderPayment,
-            delivery: orderDelivery
-        })
-        console.log(newOrder)
+    //     const newOrder = new Order({
+    //         retailer_id: orderRetailer_id,
+    //         orderDate: orderOrderDate,
+    //         product: orderProducts,
+    //         payment: orderPayment,
+    //         delivery: orderDelivery
+    //     })
+    //     console.log(newOrder)
 
-        await newOrder.save()
-    }
+    //     await newOrder.save()
+    // }
 
 
     //SEEDING IMPORTS

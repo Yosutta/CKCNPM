@@ -184,9 +184,11 @@ app.post('/accountant/warehouse/export', async (req, res) => {
             const total = parseInt(orderProducts[i].item.quantity) - parseInt(orderedQuantity)
             await Warehouse.findByIdAndUpdate(product, { quantity: total })
         }
+        return true
     }
-    else
-        res.redirect('/login')
+    else {
+        return false
+    }
 })
 
 app.get('/accountant/orders/view', async (req, res) => {
@@ -261,6 +263,7 @@ app.get('/accountant/revenue/exports/get', async (req, res) => {
         await Export.populate(foundExports, 'products.item')
         await Export.populate(foundExports, 'order_id')
         await Export.populate(foundExports, 'order_id.retailer_id')
+        // console.log(foundExports)
     }
     return res.status(200).json({ result: foundExports })
 })
@@ -291,6 +294,7 @@ app.post('/retailer/order/checkout', async (req, res) => {
     if (req.session.retailer_id) {
         const { paymentList, deliveryList, creditCardInfo } = { ...req.body }
         const productList = req.body.list
+        console.log(productList)
         const orderDate = Date.now();
 
         let paymentStatus = false

@@ -53,11 +53,13 @@ async function readData(ui) {
         const res = await fetchData(ui)
         let product = res['result']
         $('#addBtn').unbind().bind('click', function (event) {
-            event.preventDefault();
-            list.push(product)
-            addToGrid(list)
-            input.value = ""
-            input.focus()
+            if (!input.value == "") {
+                event.preventDefault();
+                list.push(product)
+                addToGrid(list)
+                input.value = ""
+                input.focus()
+            }
         });
     } catch (err) {
         console.log(err);
@@ -96,6 +98,17 @@ function addToGrid(list) {
 function checkOut(list) {
     let orderPhoneNumber = document.querySelector('#deliveryphonenumber').value
     let orderAddress = document.querySelector('#deliveryaddress').value
+    console.log(list)
+    const products = []
+
+    for (let i = 0; i < list.length; i++) {
+        console.log(list[i]._id)
+        products[i] = {}
+        products[i].item = list[i]._id
+        products[i].orderedQuantity = list[i].orderedQuantity
+    }
+
+    console.log(products)
 
     let creditCardInfo = {}
 
@@ -126,7 +139,10 @@ function checkOut(list) {
     $.ajax({
         method: 'POST',
         url: '/retailer/order/checkout',
-        data: { list, paymentList, deliveryList, creditCardInfo },
+        data: { list: products, paymentList, deliveryList, creditCardInfo },
+        success: function () {
+            window.location.href = "/order"
+        }
     }).done(() => {
         window.location.href = "/order"
     })
