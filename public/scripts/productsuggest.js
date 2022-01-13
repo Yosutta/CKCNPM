@@ -202,8 +202,10 @@ document.querySelector("#exportBtn").addEventListener('submit', (e) => {
         method: "POST",
         url: "/accountant/warehouse/export",
         data: { exportList },
-        success: function (data) {
-            window.location.replace('https://www.google.com')
+        success: function (response) {
+            if (response.result == 'redirect') {
+                window.location.replace(response.url);
+            }
         }
     })
 })

@@ -68,37 +68,38 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <% for(let i=0;i<orders.length;i++){ %>
-                                    <tr>
-                                        <td>
-                                            <%= orders[i]._id %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].orderDate.toDateString() %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].retailer_id.fullname %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].payment.amount %>
-                                        </td>
-                                        <td>
-                                            <% if(orders[i].payment.status){ %>
-                                                Paid
-                                                <% } else{ %>
-                                                    Ongoing
-                                                    <% } %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].delivery.status %>
-                                        </td>
-                                        <td>
-                                            <button class=" btn btn-primary" id="order<%=i%>" value="edit"
-                                                onclick="edit(<%= i %>)"><i class="fa fa-edit "></i>
-                                                Edit</button>
-                                        </td>
-                                    </tr>
-                                    <% } %>
+                                <% orders.reverse() %>
+                                    <% for(let i=0;i<orders.length;i++){ %>
+                                        <tr>
+                                            <td>
+                                                <%= orders[i]._id %>
+                                            </td>
+                                            <td>
+                                                <%= orders[i].orderDate.toDateString() %>
+                                            </td>
+                                            <td>
+                                                <%= orders[i].retailer_id.fullname %>
+                                            </td>
+                                            <td>
+                                                <%= orders[i].payment.amount %>
+                                            </td>
+                                            <td>
+                                                <% if(orders[i].payment.status){ %>
+                                                    Paid
+                                                    <% } else{ %>
+                                                        Ongoing
+                                                        <% } %>
+                                            </td>
+                                            <td>
+                                                <%= orders[i].delivery.status %>
+                                            </td>
+                                            <td>
+                                                <button class=" btn btn-primary" id="order<%=i%>" value="edit"
+                                                    onclick="edit(<%= i %>)"><i class="fa fa-edit "></i>
+                                                    Edit</button>
+                                            </td>
+                                        </tr>
+                                        <% } %>
                             </tbody>
                         </table>
                     </div>

@@ -184,10 +184,10 @@ app.post('/accountant/warehouse/export', async (req, res) => {
             const total = parseInt(orderProducts[i].item.quantity) - parseInt(orderedQuantity)
             await Warehouse.findByIdAndUpdate(product, { quantity: total })
         }
-        return true
+        return res.status(200).send({ result: 'redirect', url: '/accountant/orders/view' })
     }
     else {
-        return false
+        return res.status(401).send({ error: 'Something went wrong' })
     }
 })
 
