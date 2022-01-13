@@ -105,7 +105,7 @@ function checkOut(list) {
         console.log(list[i]._id)
         products[i] = {}
         products[i].item = list[i]._id
-        products[i].orderedQuantity = list[i].orderedQuantity
+        products[i].orderedQuantity = list[i].orderedQuantity || 0
     }
 
     console.log(products)
@@ -141,15 +141,13 @@ function checkOut(list) {
         url: '/retailer/order/checkout',
         data: { list: products, paymentList, deliveryList, creditCardInfo },
         success: function () {
-            window.location.href = "/order"
+            window.location.replace('https://www.google.com')
         }
-    }).done(() => {
-        window.location.href = "/order"
     })
 }
 
 function assignOrderedQuantity(i) {
-    list[i]['orderedQuantity'] = parseInt(document.querySelector(`#orderedQuantity${i}`).innerHTML)
+    list[i]['orderedQuantity'] = parseInt(document.querySelector(`#orderedQuantity${i}`).innerHTML) || 0
     calc(list)
 }
 

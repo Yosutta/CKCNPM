@@ -62,7 +62,7 @@ const orderSchema = mongoose.Schema({
         },
         status: {
             type: String,
-            enums: ['Awaiting for confirmation', 'Confirmed and Delivering', "Order has been delivered"],
+            enums: ['Awaiting for confirmation', 'Confirmed and Delivering', 'Order has been delivered'],
             required: true
         }
     }

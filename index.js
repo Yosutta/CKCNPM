@@ -193,7 +193,8 @@ app.post('/accountant/warehouse/export', async (req, res) => {
 
 app.get('/accountant/orders/view', async (req, res) => {
     if (req.session.accountant_id) {
-        const orders = await Order.find().populate('retailer_id');
+        const orders = await Order.find({ 'delivery.status': { $in: ['Confirmed and Delivering', 'Order has been delivered'] } }).populate('retailer_id');
+        console.log(orders)
         res.render('accountant/ordermanage', { orders })
     }
     else
@@ -263,7 +264,7 @@ app.get('/accountant/revenue/exports/get', async (req, res) => {
         await Export.populate(foundExports, 'products.item')
         await Export.populate(foundExports, 'order_id')
         await Export.populate(foundExports, 'order_id.retailer_id')
-        // console.log(foundExports)
+        console.log(foundExports)
     }
     return res.status(200).json({ result: foundExports })
 })

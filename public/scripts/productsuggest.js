@@ -203,7 +203,7 @@ document.querySelector("#exportBtn").addEventListener('submit', (e) => {
         url: "/accountant/warehouse/export",
         data: { exportList },
         success: function (data) {
-            location.href = '/accountant/warehouse'
+            window.location.replace('https://www.google.com')
         }
     })
 })
