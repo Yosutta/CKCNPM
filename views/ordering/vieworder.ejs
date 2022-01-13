@@ -27,20 +27,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="/accountant/warehouse">Warehouse management</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="/accountant/orders/view">Retailer's orders</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/accountant/revenue">View Revenue</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/accountant/logout">Log out</a>
-                        </li>
-                    </ul>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/retailer/order">Create orders
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/retailer/order/view">View orders
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/retailer/logout">Log out</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -50,7 +47,10 @@
             <!--    Bordered Table  -->
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Manage Order
+                    <h2>
+                        <%= orders[0].retailer_id.fullname %> orders :
+                    </h2>
+                    View order
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -64,7 +64,6 @@
                                     <th>Cost</th>
                                     <th>Payment status</th>
                                     <th>Delivery status</th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,11 +90,6 @@
                                         </td>
                                         <td>
                                             <%= orders[i].delivery.status %>
-                                        </td>
-                                        <td>
-                                            <button class=" btn btn-primary" id="order<%=i%>" value="edit"
-                                                onclick="edit(<%= i %>)"><i class="fa fa-edit "></i>
-                                                Edit</button>
                                         </td>
                                     </tr>
                                     <% } %>

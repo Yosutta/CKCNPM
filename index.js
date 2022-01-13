@@ -194,7 +194,6 @@ app.post('/accountant/warehouse/export', async (req, res) => {
 app.get('/accountant/orders/view', async (req, res) => {
     if (req.session.accountant_id) {
         const orders = await Order.find({ 'delivery.status': { $in: ['Confirmed and Delivering', 'Order has been delivered'] } }).populate('retailer_id');
-        console.log(orders)
         res.render('accountant/ordermanage', { orders })
     }
     else
@@ -283,6 +282,15 @@ app.get('/retailer/order', (req, res) => {
         res.redirect('/login')
 })
 
+app.get('/retailer/order/view', async (req, res) => {
+    if (req.session.retailer_id) {
+        const foundOrders = await Order.find({ retailer_id: req.session.retailer_id }).populate('retailer_id')
+        res.render('ordering/vieworder', { orders: foundOrders })
+    }
+    else
+        res.redirect('/login')
+})
+
 app.get('/retailer/order/detail', async (req, res) => {
     const order = await Order.findById(req.query.id).populate('retailer_id').populate({
         path: 'product.item',
@@ -336,6 +344,7 @@ app.post('/retailer/order/checkout', async (req, res) => {
             creditcard
         })
         await newOrder.save()
+        return res.status(200).send({ result: 'redirect', url: '/retailer/order/view' })
     }
     else
         res.redirect('/login')

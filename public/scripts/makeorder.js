@@ -140,8 +140,11 @@ function checkOut(list) {
         method: 'POST',
         url: '/retailer/order/checkout',
         data: { list: products, paymentList, deliveryList, creditCardInfo },
-        success: function () {
-            window.location.replace('https://www.google.com')
+        success: function (res) {
+            if (res.result = 'redirect') {
+                console.log(res.url)
+                window.location.replace(res.url);
+            }
         }
     })
 }
