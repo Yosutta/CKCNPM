@@ -46,172 +46,172 @@
         <div class="leftO"> </div>
         <div class="rightO"> </div>
     </nav>
-	<div class="content-wrapper">
-		<div class="container container--margin">
-			<div data-role="control" data-type="form-header" data-hash="00000002" data-type-id="27" data-colspan="20"
-				id="form-heading-00000002-acc" aria-labelledby="form-heading-00000002-acc" data-i18n-html="Headline">
-				<h1>Online Order Form</h1>
-				<p style="font-size:14px;">
-					Please fill in the order form below with the
-					items you want to purchase from our store.
-					Thank you for choosing our services!
-				</p>
-				<hr>
-			</div>
-			<font color="red" align="center">
+	<div class="body-scale">
+		<div class="content-wrapper">
+			<div class="container container--margin">
+				<div data-role="control" data-type="form-header" data-hash="00000002" data-type-id="27" data-colspan="20"
+					id="form-heading-00000002-acc" aria-labelledby="form-heading-00000002-acc" data-i18n-html="Headline">
+					<h1>Online Order Form</h1>
+					<p style="font-size:14px;">
+						Please fill in the order form below with the
+						items you want to purchase from our store.
+						Thank you for choosing our services!
+					</p>
+					<hr>
+				</div>
+				<font color="red" align="center">
 
-			</font>
-			<div class="col-md-12">
-				<!--    Bordered Table  -->
-				<div class="panel panel-default">
-					<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
-					<form action="/retailer/order/search" target="dummyframe" id="searchform">
-						<div class="panel-heading input-group mb-3">
-							<input type="text" placeholder="Search.." class="form-control" id="productname"
-								name="productname" autocomplete>
-							<div class="input-group-append ml-3">
-								<button class="btn btn-outline-secondary px-4" id="addBtn" type="button">Add</button>
+				</font>
+				<div class="col-md-12">
+					<!--    Bordered Table  -->
+					<div class="panel panel-default">
+						<iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
+						<form action="/retailer/order/search" target="dummyframe" id="searchform">
+							<div class="panel-heading input-group mb-3">
+								<input type="text" placeholder="Search.." class="form-control" id="productname"
+									name="productname" autocomplete>
+								<div class="input-group-append ml-3">
+									<button class="btn btn-outline-secondary px-4" id="addBtn" type="button">Add</button>
+								</div>
+								<hr>
 							</div>
-							<hr>
-						</div>
-					</form>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="table-responsive table-bordered">
-							<table class="table" id="list">
-								<thead>
-									<tr>
-										<th>Product name</th>
-										<th>price</th>
-										<th>Remaining</th>
-										<th>Manufacturer</th>
-										<th>Quantity</th>
-										<th>Total price</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td></td>
-										<td>
-											<div contenteditable></div>
-										</td>
-										<td></td>
-									</tr>
+						</form>
+						<!-- /.panel-heading -->
+						<div class="panel-body">
+							<div class="table-responsive table-bordered">
+								<table class="table" id="list">
+									<thead>
+										<tr>
+											<th>Product name</th>
+											<th>price</th>
+											<th>Remaining</th>
+											<th>Manufacturer</th>
+											<th>Quantity</th>
+											<th>Total price</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td>
+												<div contenteditable></div>
+											</td>
+											<td></td>
+										</tr>
 
 
-								</tbody>
-							</table>
-						</div>
+									</tbody>
+								</table>
+							</div>
+							<div class="table-responsive table-bordered table-color">
+								<table class="table">
+									<thead>
+										<tr>
+											<h3 for="paymentform">Delivery Infomation Form</h3>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td><h4>Delivery phone number</h4></td>
+											<td><input type="text" class="form-control" id="deliveryphonenumber"
+													name="deliveryphonenumber" value=" " required /></td>
+										</tr>
+										<tr>
+											<td><h4>Delivery address</h4></td>
+											<td><input type="text" class="form-control" id="deliveryaddress"
+													name="deliveryaddress" value=" " required /></td>
+										</tr>
+										<tr>
+											<td><h4>Order total cost</h4></td>
+											<td>
+												<div id="totalamount" name="totalamount"></div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+							<div class=" table-responsive table-bordered">
+								<table class="table">
+									<thead>
+										<tr>
+											<h3 for="paymentform">Payment method</h3>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
 
-						<div class="table-responsive table-bordered">
-							<table class="table">
-								<thead>
-									<tr>
-										<h3 for="paymentform">Delivery Infomation Form</h3>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>Delivery phone number</td>
-										<td><input type="text" class="form-control" id="deliveryphonenumber"
-												name="deliveryphonenumber" value=" " required /></td>
-									</tr>
-									<tr>
-										<td>Delivery address</td>
-										<td><input type="text" class="form-control" id="deliveryaddress"
-												name="deliveryaddress" value=" " required /></td>
-									</tr>
-									<tr>
-										<td>Order total cost</td>
-										<td>
-											<div id="totalamount" name="totalamount"></div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-						<div class=" table-responsive table-bordered">
-							<table class="table">
-								<thead>
-									<tr>
-										<h3 for="paymentform">Payment method</h3>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
+											<td>
+												<button class="btn btn-primary"
+													onclick="changePaymentMethod('transaction');openCity(event, 'Credit Card')"><i
+														class=" fa fa-refresh ">Transaction</button>
 
-										<td>
-											<button class="btn btn-primary"
-												onclick="changePaymentMethod('transaction');openCity(event, 'Credit Card')"><i
-													class=" fa fa-refresh ">Transaction</button>
+											</td>
+											<td>
+												<button class=" btn btn-primary"
+													onclick="changePaymentMethod('momo');openCity(event, 'Momo')"><i
+														class=" fa fa-refresh ">Momo</button>
+											</td>
+											<td>
+												<button class="btn btn-primary"
+													onclick="changePaymentMethod('incash');openCity(event, 'Cash')"> <i
+														class=" fa fa-refresh "></i>In cash</button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 
-										</td>
-										<td>
-											<button class=" btn btn-primary"
-												onclick="changePaymentMethod('momo');openCity(event, 'Momo')"><i
-													class=" fa fa-refresh ">Momo</button>
-										</td>
-										<td>
-											<button class="btn btn-primary"
-												onclick="changePaymentMethod('incash');openCity(event, 'Cash')"> <i
-													class=" fa fa-refresh "></i>In cash</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-
-						<div id="Credit Card" class="tabcontent">
-							<table class="table">
-								<thead>
-									<tr>
-										<h4>Credit Card</h4>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										Card Holder Name:<input type="text" class="form-control" id="creditcardname"
-											name="creditcardname" placeholder="Order Customer Name" value=" "
-											required />
-									</tr>
-									<tr>
-										Card Number:<input type="text" class="form-control" id="creditcardnumber"
-											name="creditcardnumber" placeholder="Order Customer Name" value=" "
-											required />
-									</tr>
-									<tr>
-										<td>MM/YY:<input type="month" class="form-control" id="creditcarddate"
-												name="creditcarddate" placeholder="Order Customer Name" value=" "
+							<div id="Credit Card" class="tabcontent">
+								<table class="table">
+									<thead>
+										<tr>
+											<h3>Credit Card</h3>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>	
+											<h5>Card Holder Name:</h5><input type="text" class="form-control" id="creditcardname"
+												name="creditcardname" placeholder="Order Customer Name" value=" "
 												required />
-										</td>
-										<td>ZIP:<input type="text" class="form-control" id="creditcardzip"
-												name="creditcardzip" placeholder="Order Customer Name" value=" "
-												required /></td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
+										</tr>
+										<tr>
+											<h5>Card Number:</h5><input type="text" class="form-control" id="creditcardnumber"
+												name="creditcardnumber" placeholder="Order Customer Name" value=" "
+												required />
+										</tr>
+										<tr>
+											<td><h5>MM/YY:</h5><input type="month" class="form-control" id="creditcarddate"
+													name="creditcarddate" placeholder="Order Customer Name" value=" "
+													required />
+											</td>
+											<td><h5>ZIP:</h5><input type="text" class="form-control" id="creditcardzip"
+													name="creditcardzip" placeholder="Order Customer Name" value=" "
+													required /></td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
 
-						<div id="Momo" class="tabcontent">
-							<h3>Momo</h3>
-							<p>This function is under development.</p>
-						</div>
+							<div id="Momo" class="tabcontent">
+								<h3>Momo</h3>
+								<p>This function is under development.</p>
+							</div>
 
-						<div id="Cash" class="tabcontent">
-							<h3>Cash</h3>
-							<p>Your order payment will be confirmed later.</p>
+							<div id="Cash" class="tabcontent">
+								<h3>Cash</h3>
+								<p>Your order payment will be confirmed later.</p>
+							</div>
+							<button type="Payment" name="Payment" class="btn btn-primary" id="checkoutBtn"><i
+									class=" fa fa-refresh "></i>
+								Order</button>
 						</div>
-						<button type="Payment" name="Payment" class="btn btn-primary" id="checkoutBtn"><i
-								class=" fa fa-refresh "></i>
-							Order</button>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 	</div>
 	<script>
 		function openCity(evt, cityName) {

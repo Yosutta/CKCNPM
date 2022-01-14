@@ -47,63 +47,68 @@
         <div class="leftMO"> </div>
         <div class="rightMO"> </div>
     </nav>
-    <div class="container container--margin">
-        <div class="col-md-12">
-            <!--    Bordered Table  -->
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h2>
-                        <%= orders[0].retailer_id.fullname %> orders :
-                    </h2>
-     
-                </div>
-                <div class="panel-body">
-                    <div class="table-bordered table-margins">
-                        <table class="table" id="list">
-                            <thead>
-                                <tr>
-                                    <th>Order id</th>
-                                    <th>Order Date</th>
-                                    <th>Retailer Name</th>
-                                    <th>Cost</th>
-                                    <th>Payment status</th>
-                                    <th>Delivery status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% for(let i=0;i<orders.length;i++){ %>
-                                    <tr>
-                                        <td>
-                                            <%= orders[i]._id %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].orderDate.toDateString() %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].retailer_id.fullname %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].payment.amount %>
-                                        </td>
-                                        <td>
-                                            <% if(orders[i].payment.status){ %>
-                                                Paid
-                                                <% } else{ %>
-                                                    Ongoing
-                                                    <% } %>
-                                        </td>
-                                        <td>
-                                            <%= orders[i].delivery.status %>
-                                        </td>
-                                    </tr>
-                                    <% } %>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	
+	<div class="body-scale">
+		<div class="content-wrapper">
+			<div class="container container--margin">
+				<div class="col-md-12">
+					<!--    Bordered Table  -->
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h2>
+								<%= orders[0].retailer_id.fullname %> orders :
+							</h2>
+			 
+						</div>
+						<div class="panel-body">
+							<div class="table-bordered table-margins">
+								<table class="table" id="list">
+									<thead>
+										<tr>
+											<th>Order id</th>
+											<th>Order Date</th>
+											<th>Retailer Name</th>
+											<th>Cost</th>
+											<th>Payment status</th>
+											<th>Delivery status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<% for(let i=0;i<orders.length;i++){ %>
+											<tr>
+												<td>
+													<%= orders[i]._id %>
+												</td>
+												<td>
+													<%= orders[i].orderDate.toDateString() %>
+												</td>
+												<td>
+													<%= orders[i].retailer_id.fullname %>
+												</td>
+												<td>
+													<%= orders[i].payment.amount %>
+												</td>
+												<td>
+													<% if(orders[i].payment.status){ %>
+														Paid
+														<% } else{ %>
+															Ongoing
+															<% } %>
+												</td>
+												<td>
+													<%= orders[i].delivery.status %>
+												</td>
+											</tr>
+											<% } %>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
     <script src="/scripts/vieworders.js"></script>
 </body>
 
