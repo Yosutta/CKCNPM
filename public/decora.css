@@ -1,6 +1,6 @@
 
 body {
-	background-image: url(../picture1/tetbg.jpg);
+	background-image: url(../picture1/background_img.jpg);
 	z-index: -1;
 }
 body .quangcao{
@@ -12,117 +12,74 @@ body .quangcao{
 }
 body .quangcao .leftIH{
 	float: left;
-	
-	background-image: url(../picture1/tet1.jpg);
+	background-image: url(../picture1/tet5.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 200%;
 }
 
 body .quangcao .rightIH{
 	float: right;
-	background-image: url(../picture1/tet5.jpg);
+	background-image: url(../picture1/tet4.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 200%;
 }
 
 body .quangcao .leftEH{
 	float: left;
-	
-	background-image: url(../picture1/tet3.jpg);
+	background-image: url(../picture1/tet2.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 200%;
 }
 
 body .quangcao .rightEH{
 	float: right;
 	background-image: url(../picture1/tet4.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 200%;
 }
 
 body .quangcao .leftMO{
 	float: left;
-	
-	background-image: url(../picture1/tet2.jpg);
+	background-image: url(../picture1/tet7.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 400vh;
+	background-size: 100%;
+	width: 15%;
+	height: 300%;
 }
 
 body .quangcao .rightMO{
 	float: right;
-	background-image: url(../picture1/tet3.jpg);
-	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 400vh;
-}
-
-body .quangcao .leftIF{
-	float: left;
-	
-	background-image: url(../picture1/tet4.jpg);
-	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
-}
-
-body .quangcao .rightIF{
-	float: right;
 	background-image: url(../picture1/tet1.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
-}
-
-
-body .quangcao .leftEF{
-	float: left;
-	
-	background-image: url(../picture1/tet3.jpg);
-	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
-}
-
-body .quangcao .rightEF{
-	float: right;
-	background-image: url(../picture1/tet1.jpg);
-	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 300%;
 }
 
 body .quangcao .leftO{
 	float: left;
-	
 	background-image: url(../picture1/tet2.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 200%;
 }
 
 body .quangcao .rightO{
 	float: right;
-	background-image: url(../picture1/tet4.jpg);
+	background-image: url(../picture1/tet3.jpg);
 	background-position:top;
-	background-size: 325px;
-	width: 275px;
-	height: 200vh;
+	background-size: 100%;
+	width: 15%;
+	height: 200%;
 }
 
 .panel-heading h3{
@@ -137,7 +94,7 @@ body .quangcao .rightO{
 	color: white;
 }
 .container {
-	max-width: 750px;
+	max-width: 850px;
 }
 
 h1{
@@ -152,6 +109,9 @@ h3{
 	color: white;
 }
 h4{
+	color: white;
+}
+h5{
 	color: white;
 }
 tbody tr {
@@ -170,4 +130,14 @@ p{
 .table-margins{
 	position: absolute;
     transform: translate(-30px, 10px);
+}
+.table-color{
+	color:#ffb3b3;
+}
+.body-scale{
+	margin-left:15%;
+	margin-right:15%;
+	float: left;
+	width: 70%;
+	height: 200%;
 }
