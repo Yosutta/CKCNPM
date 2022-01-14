@@ -1,6 +1,6 @@
 
 body {
-	background-image: url(../picture1/background_img.jpg);
+	background-image: url(../picture1/background.png);
 	z-index: -1;
 }
 body .quangcao{
@@ -52,7 +52,7 @@ body .quangcao .leftMO{
 	background-position:top;
 	background-size: 100%;
 	width: 15%;
-	height: 300%;
+	height: 100%;
 }
 
 body .quangcao .rightMO{
@@ -61,7 +61,7 @@ body .quangcao .rightMO{
 	background-position:top;
 	background-size: 100%;
 	width: 15%;
-	height: 300%;
+	height: 100%;
 }
 
 body .quangcao .leftO{
