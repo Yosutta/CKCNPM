@@ -1,0 +1,169 @@
+
+body {
+	background-image: url(../picture1/tetbg.jpg);
+	z-index: -1;
+}
+body .quangcao{
+	z-index: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+}
+body .quangcao .leftIH{
+	float: left;
+	
+	background-image: url(../picture1/tet1.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .rightIH{
+	float: right;
+	background-image: url(../picture1/tet5.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .leftEH{
+	float: left;
+	
+	background-image: url(../picture1/tet3.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .rightEH{
+	float: right;
+	background-image: url(../picture1/tet4.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .leftMO{
+	float: left;
+	
+	background-image: url(../picture1/tet2.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 400vh;
+}
+
+body .quangcao .rightMO{
+	float: right;
+	background-image: url(../picture1/tet3.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 400vh;
+}
+
+body .quangcao .leftIF{
+	float: left;
+	
+	background-image: url(../picture1/tet4.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .rightIF{
+	float: right;
+	background-image: url(../picture1/tet1.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+
+body .quangcao .leftEF{
+	float: left;
+	
+	background-image: url(../picture1/tet3.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .rightEF{
+	float: right;
+	background-image: url(../picture1/tet1.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .leftO{
+	float: left;
+	
+	background-image: url(../picture1/tet2.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+body .quangcao .rightO{
+	float: right;
+	background-image: url(../picture1/tet4.jpg);
+	background-position:top;
+	background-size: 325px;
+	width: 275px;
+	height: 200vh;
+}
+
+.panel-heading h3{
+	color: rgb(237, 243, 248);
+	margin-top: 50px;
+}
+.custom-control{
+	margin-top:50px;
+	color: white;
+}
+.table tr{
+	color: white;
+}
+.container {
+	max-width: 750px;
+}
+
+h1{
+	color: white;
+}
+
+h2{
+	color: white;
+}
+
+h3{
+	color: white;
+}
+h4{
+	color: white;
+}
+tbody tr {
+	color: white;
+}
+p{
+	color: white;
+}
+.btn {
+	color: white;
+}
+.table-margin{
+	position: absolute;
+    transform: translate(-65px, 10px);
+}
