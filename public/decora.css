@@ -167,3 +167,7 @@ p{
 	position: absolute;
     transform: translate(-65px, 10px);
 }
+.table-margins{
+	position: absolute;
+    transform: translate(-30px, 10px);
+}
