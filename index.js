@@ -136,6 +136,7 @@ app.post('/accountant/warehouse/import', async (req, res) => {
                     price,
                     manufacturer
                 })
+                console.log(newProduct)
                 await newProduct.save()
             }
             else {
@@ -148,12 +149,27 @@ app.post('/accountant/warehouse/import', async (req, res) => {
 
         const importDate = Date.now()
 
+        let data = []
+        for (let i = 0; i < list.length; i++) {
+            if (list[i]._id) {
+                data[i] = {}
+                data[i].item = list[i]._id
+                data[i].importQuantity = list[i].importQuantity
+            }
+            else {
+                const foundProduct = await Warehouse.findOne({ name: list[i].name })
+                data[i] = {}
+                data[i].item = foundProduct._id
+                data[i].importQuantity = foundProduct.quantity
+            }
+        }
+
         const newImportRequest = new Import({
             importDate,
-            products: list
+            products: data
         })
-
         await newImportRequest.save()
+        return res.status(200).send({ result: 'redirect', url: '/accountant/revenue/imports' })
     }
     else
         res.redirect('/login')
@@ -219,53 +235,72 @@ app.post('/accountant/orders/edit', async (req, res) => {
 })
 
 app.get('/accountant/revenue', async (req, res) => {
-    res.redirect("/accountant/revenue/imports")
+    if (req.session.accountant_id) {
+        res.redirect("/accountant/revenue/imports")
+    }
+    else
+        res.redirect('/login')
 })
 
 app.get('/accountant/revenue/imports', (req, res) => {
-    res.render("accountant/importhistory")
+    if (req.session.accountant_id) {
+        res.render("accountant/importhistory")
+    }
+    else
+        res.redirect('/login')
 })
 
 app.get('/accountant/revenue/imports/get', async (req, res) => {
-    // const allImports = await Import.find().populate('products.item')
-    const month = parseInt(req.query.month)
-    let foundImports;
-    if (month === 0) {
-        foundImports = await Import.find().populate('products.item')
+    if (req.session.accountant_id) {
+        // const allImports = await Import.find().populate('products.item')
+        const month = parseInt(req.query.month)
+        let foundImports;
+        if (month === 0) {
+            foundImports = await Import.find().populate('products.item')
+        }
+        else {
+            foundImports = await Import.aggregate([
+                { $addFields: { "month": { $month: '$importDate' } } },
+                { $match: { month: month } }
+            ])
+            await Import.populate(foundImports, 'products.item')
+        }
+        return res.status(200).json({ result: foundImports })
     }
-    else {
-        foundImports = await Import.aggregate([
-            { $addFields: { "month": { $month: '$importDate' } } },
-            { $match: { month: month } }
-        ])
-        await Import.populate(foundImports, 'products.item')
-    }
-    return res.status(200).json({ result: foundImports })
+    else
+        res.redirect('/login')
 })
 
 app.get('/accountant/revenue/exports', (req, res) => {
-    res.render("accountant/exporthistory")
+    if (req.session.accountant_id) {
+        res.render("accountant/exporthistory")
+    }
+    else
+        res.redirect('/login')
 })
 
 app.get('/accountant/revenue/exports/get', async (req, res) => {
-    // const foundExports = await Export.find().populate('products.item')
-    const month = parseInt(req.query.month)
-    let foundExports;
-    if (month === 0) {
-        foundExports = await Export.find().populate('products.item')
-        console.log(foundExports)
+    if (req.session.accountant_id) {
+        // const foundExports = await Export.find().populate('products.item')
+        const month = parseInt(req.query.month)
+        let foundExports;
+        if (month === 0) {
+            foundExports = await Export.find().populate('products.item').populate('order_id')
+            await Export.populate(foundExports, 'order_id.retailer_id')
+        }
+        else {
+            foundExports = await Export.aggregate([
+                { $addFields: { "month": { $month: '$exportDate' } } },
+                { $match: { month: month } }
+            ])
+            await Export.populate(foundExports, 'products.item')
+            await Export.populate(foundExports, 'order_id')
+            await Export.populate(foundExports, 'order_id.retailer_id')
+        }
+        return res.status(200).json({ result: foundExports })
     }
-    else {
-        foundExports = await Export.aggregate([
-            { $addFields: { "month": { $month: '$exportDate' } } },
-            { $match: { month: month } }
-        ])
-        await Export.populate(foundExports, 'products.item')
-        await Export.populate(foundExports, 'order_id')
-        await Export.populate(foundExports, 'order_id.retailer_id')
-        console.log(foundExports)
-    }
-    return res.status(200).json({ result: foundExports })
+    else
+        res.redirect('/login')
 })
 
 app.get('/isretailer', (req, res) => {
@@ -292,11 +327,15 @@ app.get('/retailer/order/view', async (req, res) => {
 })
 
 app.get('/retailer/order/detail', async (req, res) => {
-    const order = await Order.findById(req.query.id).populate('retailer_id').populate({
-        path: 'product.item',
-        model: 'Warehouse'
-    })
-    return res.status(200).json({ order })
+    if (req.session.accountant_id) {
+        const order = await Order.findById(req.query.id).populate('retailer_id').populate({
+            path: 'product.item',
+            model: 'Warehouse'
+        })
+        return res.status(200).json({ order })
+    }
+    else
+        res.redirect('/login')
 })
 
 app.post('/retailer/order/checkout', async (req, res) => {

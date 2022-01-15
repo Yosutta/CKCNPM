@@ -32,7 +32,6 @@ async function fillData(data) {
             price += parseInt(exports[i].products[j].item.price) * exports[i].products[j].orderedQuantity
         }
 
-        console.log(exports)
         exportId.innerHTML = exports[i]['_id']
         exportRetailerName.innerHTML = exports[i]['order_id']['retailer_id']['fullname']
         exportRetailerPhoneNumber.innerHTML = exports[i]['order_id']['delivery']['phonenumber']

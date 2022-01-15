@@ -27,6 +27,7 @@ async function fillData(data) {
 
         let price = 0
         for (let j = 0; j < imports[i].products.length; j++) {
+            console.log(imports[i].products[j])
             price += parseInt(imports[i].products[j].item.price) * imports[i].products[j].importQuantity
         }
 

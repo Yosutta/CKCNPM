@@ -63,7 +63,7 @@ function fillTable() {
         productName.innerHTML = product['name']
         productManufacturer.innerHTML = product['manufacturer']
         productPrice.innerHTML = product['price']
-        productQuantity.innerHTML = product['importQuantity'] || `<div contenteditable id="productQuantity${i}" onInput="assignQuantity(${i})"></div>`
+        productQuantity.innerHTML = product['importQuantity'] || `<div contenteditable id="productQuantity${i}" onInput="assignQuantity(${i})">0</div>`
         buTon.innerHTML = `<button onclick="removeProduct(${i})" class="btn btn-danger">Delete</button>`
     }
     calc()
@@ -73,6 +73,10 @@ const productForm = document.querySelector('#productForm')
 productForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
+    if (isNaN(priceInput.value)) {
+        priceInput.value = 0
+    }
+
     const newProduct = {
         name: nameInput.value,
         importQuantity: parseInt(quantityInput.value),
@@ -80,6 +84,7 @@ productForm.addEventListener('submit', (e) => {
         manufacturer: manufacturerInput.value
     }
     list.push(newProduct)
+    console.log(list)
     fillTable()
     clearForm()
 })
@@ -97,12 +102,21 @@ document.querySelector('#importBtn').addEventListener('submit', (e) => {
         return
     }
     else {
+        console.log(list)
+        for (let i = 0; i < list.length; i++) {
+            if (isNaN(list[i].importQuantity)) {
+                list[i].importQuantity = 0
+            }
+        }
         $.ajax({
             method: "POST",
             url: "/accountant/warehouse/import",
             data: { list },
-        }).done(() => {
-            window.location.href = "/accountant/warehouse"
+            success: function (response) {
+                if (response.result === 'redirect') {
+                    window.location.replace(response.url)
+                }
+            }
         })
     }
 })
@@ -150,6 +164,7 @@ async function fillExportRequest(id) {
     })
 
     const order = result.order
+    console.log(result)
     const detail = `<span><b>Retailer's name: </b>${order.retailer_id.fullname}</span>
                     <br>
                     <span><b>Order date:</b> ${order.orderDate}</span>
@@ -163,6 +178,7 @@ async function fillExportRequest(id) {
     exportList = order;
 
     document.querySelector('#orderDetail').innerHTML = detail
+    document.querySelector('#orderDetail').style.color = 'white'
     fillExportTable()
 }
 
