@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production') {
+    require('dotenv').config()
+}
+
 const express = require("express")
 const app = express()
 const session = require('express-session')
@@ -8,8 +12,7 @@ const Order = require('./models/order')
 const Import = require("./models/import")
 const Export = require('./models/export')
 
-
-const dbUrl = 'mongodb://127.0.0.1:27017/CNPM'
+const dbUrl = process.env.DB_URL || 'mongodb://127.0.0.1:27017/CNPM'
 const mongoose = require('mongoose')
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -20,10 +23,23 @@ mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true })
         console.log(err)
     })
 
+const MongoStore = require('connect-mongo');
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    secret: 'thisisarobbery',
+    touchAfter: 24 * 60 * 60
+})
+const secret = process.env.SECRET || 'thisisarobbery'
+
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({ extended: true }))
-app.use(session({ secret: 'thisisarobbery', resave: false, saveUninitialized: true }))
+app.use(session({
+    secret: 'thisisarobbery',
+    resave: false,
+    saveUninitialized: true,
+    store
+}))
 
 app.get("/login", (req, res) => {
     res.render("auth/login")
