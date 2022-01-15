@@ -422,6 +422,7 @@ app.get("*", (req, res) => {
     res.redirect('/login')
 })
 
-app.listen("8080", (req, res) => {
-    console.log("Listening on port 8080")
+const port = process.env.PORT || 8080
+app.listen(port, (req, res) => {
+    console.log(`Serving on port ${port}`)
 })
